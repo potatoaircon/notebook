@@ -232,30 +232,45 @@ a:focus-visible,
 }
 
 .back {
-  width: 100px;
+  box-sizing: border-box;
+  width: auto;
   height: 38px;
   margin: 0 0 6px;
   padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: #ebe6dc;
-  color: #3a3e3a;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--red);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
+  justify-content: flex-start;
+  gap: 8px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   box-shadow: none;
   appearance: none;
   -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  transition: color 0.2s ease;
 }
 
-.back:hover,
-.back:active {
-  background: #f0dad2;
-  color: #3a3e3a;
+.back-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back:hover {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--red2);
+  }
+
+  .back:hover .back-arrow { transform: translateX(-3px); }
 }
 
 .detail-top {
@@ -364,12 +379,9 @@ a:focus-visible,
 .hotel-title h2 { margin: 0; }
 .hotel-en { margin-top: 3px; font-size: 12px; color: #7c7f78; }
 .hotel-links { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.booking, .agoda { display: inline-flex; flex-shrink: 0; line-height: 0; }
-.booking { color: var(--red2); }
+.booking, .agoda { display: inline-flex; flex-shrink: 0; line-height: 0; color: var(--red2); }
 .booking svg, .agoda svg { width: 22px; height: 22px; display: block; }
-.agoda svg { border-radius: 5px; overflow: hidden; box-shadow: 0 0 0 1px #e4ddd2; }
-.booking:hover { color: var(--red); }
-.agoda:hover { opacity: .82; }
+.booking:hover, .agoda:hover { color: var(--red); }
 .date-group { margin-top: 18px; }
 .date-group h3 { font-size: 12px; letter-spacing: .1em; margin: 0 0 9px; color: #7c716b; }
 
@@ -432,6 +444,9 @@ a:focus-visible,
   white-space: nowrap;
 }
 
+.rate-plan { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; min-width: 0; }
+.rate-plan .rate-note { font-size: 10px; line-height: 1.35; white-space: normal; }
+.room-en { margin-top: 2px; font-size: 11px; color: #7c7f78; }
 .rate-extra { margin-top: 10px; font-size: 12px; color: #7c7f78; }
 
 .num-gap { display: inline-block; width: 0.28em; }
@@ -482,7 +497,45 @@ a:focus-visible,
 
 @media (max-width: 700px), ((hover: none) and (pointer: coarse)) {
   .map-screen { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
-  .back { height: 44px; }
+  .back {
+    position: relative;
+    width: auto;
+    min-width: 0;
+    height: 38px;
+    min-height: 0;
+    margin: 0 0 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--red);
+    font-size: 14px;
+    font-weight: 600;
+    gap: 8px;
+    transform: none;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  .back::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+  .back:hover,
+  .back:hover .back-arrow {
+    background: transparent;
+    color: var(--red);
+    transform: none;
+  }
+  .back:active {
+    background: transparent;
+    box-shadow: none;
+    color: var(--red2);
+  }
   .hover-note { display: none; }
   .pin .label-hit,
   .place-label { pointer-events: all; }
