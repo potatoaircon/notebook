@@ -114,7 +114,7 @@ function roomCard(room) {
   return `<div class="room" tabindex="0"><div class="type">${esc(room.type)}</div><div class="price">${esc(room.price)}</div><div class="meta">${esc(room.meta) || "&nbsp;"}</div><span class="stock">${esc(room.stock)}</span></div>`;
 }
 
-const agodaLogo = `<svg viewBox="0 0 140 72" aria-hidden="true"><g fill="none" fill-rule="evenodd">
+const agodaLogo = `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#fff"/><g fill="none" fill-rule="evenodd" transform="translate(4 18) scale(0.4)">
     <path fill="#FCB716" d="M40.8395924,50.3726635 C35.1321043,50.3726635 30.4888815,55.0152227 30.4888815,60.7227109 C30.4888815,66.4295355 35.1321043,71.0727583 40.8395924,71.0727583 C46.5470806,71.0727583 51.1896398,66.4295355 51.1896398,60.7227109 C51.1896398,55.0152227 46.5470806,50.3726635 40.8395924,50.3726635"/>
     <path fill="#EE363F" d="M11.9155261,50.3726635 C6.20803791,50.3726635 1.56547867,55.0152227 1.56547867,60.7227109 C1.56547867,66.4295355 6.20803791,71.0727583 11.9155261,71.0727583 C17.6223507,71.0727583 22.266237,66.4295355 22.266237,60.7227109 C22.266237,55.0152227 17.6223507,50.3726635 11.9155261,50.3726635"/>
     <path fill="#07AF56" d="M69.7637251,50.3726635 C64.0555735,50.3726635 59.4130142,55.0152227 59.4130142,60.7227109 C59.4130142,66.4295355 64.0555735,71.0727583 69.7637251,71.0727583 C75.4705498,71.0727583 80.1137725,66.4295355 80.1137725,60.7227109 C80.1137725,55.0152227 75.4705498,50.3726635 69.7637251,50.3726635"/>
@@ -144,7 +144,8 @@ function fareBlock(place) {
   if (!place.fares) return "";
   const fare = place.fares;
   const rows = fare.seats.map((seat) => `<li><span class="fare-type">${esc(seat.type)}</span><span class="fare-price">${esc(seat.price)}</span></li>`).join("");
-  return `<div class="fares"><div class="fare-head">新幹線 ${esc(fare.date)}　${esc(fare.label)}</div><div class="fare-route">${esc(fare.route)}</div><ul class="fare-list">${rows}</ul></div>`;
+  const passes = (place.passes || []).map((pass) => `<li><span class="${pass.ok ? "pass-yes" : "pass-part"}">${pass.ok ? "✓" : "△"}</span>${esc(pass.name)}</li>`).join("");
+  return `<div class="fares"><div class="fare-head">新幹線 ${esc(fare.date)}　${esc(fare.label)}</div><div class="fare-route">${esc(fare.route)}</div><ul class="fare-list">${rows}</ul>${passes ? `<ul class="passes">${passes}</ul>` : ""}</div>`;
 }
 
 function openDetail(id) {
@@ -174,6 +175,22 @@ function back() {
   window.scrollTo(0, 0);
 }
 
+const DOUBLE_TAP_MS = 320;
+let lastPinTap = { id: null, time: 0 };
+
+function activatePin(id) {
+  const now = Date.now();
+  const repeat = mobile() && lastPinTap.id === id && now - lastPinTap.time <= DOUBLE_TAP_MS;
+  lastPinTap = repeat ? { id: null, time: 0 } : { id, time: now };
+  if (!repeat) {
+    choose(id);
+    return;
+  }
+  highlight(id);
+  hidePreview();
+  openDetail(id);
+}
+
 document.querySelectorAll("[data-place]").forEach((el) => {
   const id = el.dataset.place;
   el.addEventListener("mouseenter", () => preview(id));
@@ -182,7 +199,14 @@ document.querySelectorAll("[data-place]").forEach((el) => {
   el.addEventListener("blur", hidePreview);
   el.addEventListener("click", (event) => {
     event.preventDefault();
-    choose(id);
+    activatePin(id);
+  });
+  el.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+    if (mobile()) return;
+    highlight(id);
+    hidePreview();
+    openDetail(id);
   });
   el.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {

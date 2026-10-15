@@ -96,9 +96,21 @@ a:focus-visible,
   cursor: pointer;
   outline: none;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .pin:focus-visible .outer { stroke-width: 4; }
+.pin .hit,
+.pin .label-hit,
+.place-label {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 .pin .hit { fill: transparent; pointer-events: all; }
 .pin .label-hit { fill: transparent; pointer-events: none; }
 
@@ -220,18 +232,31 @@ a:focus-visible,
 }
 
 .back {
-  border: 0;
-  background: none;
-  padding: 9px 0;
-  color: var(--ink);
+  width: 100px;
+  height: 38px;
+  margin: 0 0 6px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #ebe6dc;
+  color: #3a3e3a;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  justify-content: center;
+  gap: 6px;
   font-size: 14px;
   font-weight: 700;
+  line-height: 1;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.back:hover { color: var(--red2); }
+.back:hover,
+.back:active {
+  background: #f0dad2;
+  color: #3a3e3a;
+}
 
 .detail-top {
   display: flex;
@@ -308,6 +333,11 @@ a:focus-visible,
 }
 .fare-type { font-size: 12px; color: #7c7f78; }
 .fare-price { font-size: 14px; font-weight: 800; color: #3a3e3a; white-space: nowrap; }
+.passes { list-style: none; margin: 8px 0 0; padding: 0; }
+.passes li { font-size: 12px; line-height: 1.7; color: #72736c; }
+.pass-yes, .pass-part { display: inline-block; width: 1.15em; }
+.pass-yes { color: var(--sage); }
+.pass-part { color: var(--red); }
 
 .maps {
   display: inline-block;
@@ -336,9 +366,8 @@ a:focus-visible,
 .hotel-links { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .booking, .agoda { display: inline-flex; flex-shrink: 0; line-height: 0; }
 .booking { color: var(--red2); }
-.booking svg, .agoda svg { height: 22px; display: block; }
-.booking svg { width: 22px; }
-.agoda svg { width: auto; }
+.booking svg, .agoda svg { width: 22px; height: 22px; display: block; }
+.agoda svg { border-radius: 5px; overflow: hidden; box-shadow: 0 0 0 1px #e4ddd2; }
 .booking:hover { color: var(--red); }
 .agoda:hover { opacity: .82; }
 .date-group { margin-top: 18px; }
@@ -453,6 +482,7 @@ a:focus-visible,
 
 @media (max-width: 700px), ((hover: none) and (pointer: coarse)) {
   .map-screen { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+  .back { height: 44px; }
   .hover-note { display: none; }
   .pin .label-hit,
   .place-label { pointer-events: all; }
