@@ -394,9 +394,9 @@ const MOBILE_SHAPES = [
   { fill: "sage", points: "340,480 377,466 398,495 400,539 374,566 338,551 324,517" },
 ];
 const MOBILE_ROUTES = {
-  hakuba: "M275 540 C200 500 214 285 176 274 C153 267 140 266 115 268",
-  madarao: "M275 540 C232 450 262 169 226 166 C204 164 188 157 166 158",
-  echigo: "M275 540 C320 470 380 346 362 338 C346 331 324 322 304 322",
+  hakuba: "M275 540 Q172 445 115 268",
+  madarao: "M275 540 Q210 344 166 158",
+  echigo: "M275 540 Q323 423 304 322",
 };
 const MOBILE_PINS = {
   hakuba: { x: 115, y: 268, label: 300, hit: 24, outer: 7.2, inner: 2.5, rectX: 62, rectY: 250, rectW: 106, rectH: 64 },
