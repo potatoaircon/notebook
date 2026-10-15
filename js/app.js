@@ -63,7 +63,7 @@ function preview(id) {
   });
   const circle = document.querySelector(`[data-place="${id}"] .outer`);
   const box = circle.getBoundingClientRect();
-  hoverNote.innerHTML = `<b>${esc(place.jp)}</b><div class="time">${esc(place.time)}</div><small>${esc(place.line)}</small><div class="more">點擊查看詳細資訊 →</div>`;
+  hoverNote.innerHTML = `<b>${esc(place.jp)}</b><div class="time">${esc(place.time)}</div><small>${esc(place.line)}</small>`;
   placeNote(box.left + box.width / 2, box.top + box.height / 2);
   hoverNote.classList.add("show");
   hoverNote.setAttribute("aria-hidden", "false");
@@ -113,7 +113,7 @@ function openDetail(id) {
   const hotels = place.hotels.length
     ? place.hotels.map(hotelCard).join("")
     : '<div class="empty">尚未新增住宿資料</div>';
-  content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">交通方式</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div><a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps 查詢路線 ↗</a></div><div class="section-label">住宿資訊</div>${hotels}<p class="note">交通時間為路線參考，實際以搭乘日期的時刻表為準。住宿價格與剩餘房數為手動紀錄，並非即時庫存。</p>`;
+  content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">交通方式</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div><a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></div><div class="section-label">住宿資訊</div>${hotels}`;
   mapScreen.classList.add("hidden");
   detail.classList.add("open");
   mobileChoice.classList.remove("show");
