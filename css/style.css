@@ -92,6 +92,11 @@ a:focus-visible,
   to { stroke-dashoffset: -150; }
 }
 
+@keyframes dash-phone {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -154; }
+}
+
 .pin {
   cursor: pointer;
   outline: none;
@@ -651,21 +656,30 @@ a:focus-visible,
     --phone-map-unit: calc(400px / min(95vw, 100vw - 16px));
   }
   .map.is-portrait > .region:not(.phone-shape) { display: none; }
-  .map.is-portrait .region { opacity: 0.92; }
-  .map.is-portrait .region.active { opacity: 1; }
-  .map.is-portrait .route { stroke-width: 1.05; stroke-dasharray: 2.6 5.2; }
-  .map.is-portrait .route.active { stroke-width: 1.45; }
+  .map.is-portrait .route {
+    stroke: #C9C7C0;
+    stroke-width: 1.1;
+    stroke-dasharray: 3 7;
+    opacity: 0.75;
+  }
+  .map.is-portrait .route.active {
+    stroke: #C96F62;
+    stroke-width: 1.6;
+    stroke-dasharray: 5 6;
+    opacity: 1;
+    animation: dash-phone 2.1s linear infinite;
+  }
   .map.is-portrait .pin .outer { stroke-width: 1.35; }
   .map.is-portrait .pin[data-place="madarao"] .place-label,
   .map.is-portrait .pin[data-place="hakuba"] .place-label {
-    font-size: calc(13.5px * var(--phone-map-unit));
+    font-size: calc(13px * var(--phone-map-unit));
     font-weight: 700;
     letter-spacing: 0.08em;
   }
   .map.is-portrait .pin[data-place="echigo"] .place-label {
-    font-size: calc(12.5px * var(--phone-map-unit));
+    font-size: calc(12px * var(--phone-map-unit));
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
   .map.is-portrait .map-title {
     font-size: calc(14px * var(--phone-map-unit));
@@ -673,7 +687,7 @@ a:focus-visible,
     letter-spacing: 0.15em;
   }
   .map.is-portrait .map-small {
-    font-size: calc(10.5px * var(--phone-map-unit));
+    font-size: calc(10px * var(--phone-map-unit));
     font-weight: 500;
     letter-spacing: 0.12em;
     fill: #89877c;

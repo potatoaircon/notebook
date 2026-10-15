@@ -375,16 +375,16 @@ document.addEventListener("keydown", (event) => {
 });
 
 const MOBILE_SHAPES = [
-  { fill: "coral", points: "35,98 76,86 99,102 111,127 90,145 49,139 25,118" },
+  { fill: "coral", points: "17,86 58,74 81,90 93,115 72,133 31,127 7,106" },
   { fill: "coral", region: "madarao", points: "109,115 148,72 195,60 240,83 264,125 244,186 192,203 135,180 99,146" },
   { fill: "sage", points: "276,79 316,55 356,78 369,119 340,151 289,139 264,110" },
   { fill: "coral", points: "365,176 384,187 390,217 371,236 351,215 351,191" },
-  { fill: "sage", points: "12,174 47,156 79,176 91,208 68,233 29,228 9,200" },
+  { fill: "sage", points: "6,158 41,140 73,160 85,192 62,217 23,212 3,184" },
   { fill: "sage", region: "hakuba", points: "62,234 106,213 145,228 163,265 149,306 111,331 70,310 48,273" },
   { fill: "coral", points: "184,236 204,223 221,244 215,267 190,270 177,251" },
   { fill: "sage", points: "247,208 291,188 330,204 337,242 310,268 266,257 239,231" },
   { fill: "sage", region: "echigo", points: "268,281 316,268 361,290 376,329 357,373 306,392 262,368 248,328" },
-  { fill: "sage", points: "381,269 399,286 400,319 386,340 369,319 368,288" },
+  { fill: "sage", points: "396,268 400,284 400,322 396,338 390,320 390,286" },
   { fill: "coral", points: "14,333 50,318 80,343 91,379 61,399 23,391 4,363" },
   { fill: "sage", points: "85,391 133,370 175,390 192,425 165,459 111,465 72,438" },
   { fill: "coral", points: "202,400 232,385 257,409 251,439 218,451 195,427" },
@@ -394,9 +394,9 @@ const MOBILE_SHAPES = [
   { fill: "sage", points: "340,480 377,466 398,495 400,539 374,566 338,551 324,517" },
 ];
 const MOBILE_ROUTES = {
-  hakuba: "M275 540 C360 500 300 390 115 268",
-  madarao: "M275 540 C300 480 280 420 260 380 C175 310 155 230 166 158",
-  echigo: "M275 540 C330 490 340 400 304 322",
+  hakuba: "M275 540 C200 500 214 285 176 274 C153 267 140 266 115 268",
+  madarao: "M275 540 C232 450 262 169 226 166 C204 164 188 157 166 158",
+  echigo: "M275 540 C320 470 380 346 362 338 C346 331 324 322 304 322",
 };
 const MOBILE_PINS = {
   hakuba: { x: 115, y: 268, label: 300, hit: 24, outer: 7.2, inner: 2.5, rectX: 62, rectY: 250, rectW: 106, rectH: 64 },
@@ -522,7 +522,7 @@ function applyPortraitMap(on) {
     text.setAttribute("y", pin.label);
     const lines = group.querySelectorAll("tspan");
     lines.forEach((el) => el.setAttribute("x", pin.x));
-    if (lines[1]) lines[1].setAttribute("dy", "1.25em");
+    if (lines[1]) lines[1].setAttribute("dy", "1.3em");
   });
   const origin = svg.querySelector(".origin");
   origin.querySelectorAll("circle").forEach((el, index) => {
