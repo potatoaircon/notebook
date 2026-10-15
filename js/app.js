@@ -161,7 +161,7 @@ function resortBlock(place) {
       const leg = index ? `<div class="resort-leg"><span class="arrow">↓</span><span>${esc(resort.legs[index - 1])}</span></div>` : "";
       return `${leg}<div class="resort-stop">${esc(stop)}</div>`;
     }).join("");
-    return `<section class="resort"><h3>${esc(resort.name)}</h3><div class="resort-en">${esc(resort.en)}</div><div class="resort-time">${esc(resort.time)}</div><div class="resort-route">${route}</div><a class="maps" href="${esc(resort.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></section>`;
+    return `<section class="resort"><h3>${esc(resort.name)}</h3><div class="resort-en">${esc(resort.en)}</div><div class="resort-route">${route}</div>${resort.total ? `<div class="resort-total">合計：${esc(resort.total)}</div>` : ""}<a class="maps" href="${esc(resort.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></section>`;
   }).join("");
   return `<div class="resorts"><p class="resort-note">時間為概算</p>${items}</div>`;
 }
