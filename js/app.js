@@ -23,6 +23,10 @@ function esc(value) {
   }[ch]));
 }
 
+function label(value) {
+  return esc(value).replace(/(\d)(?=\p{Script=Han})/gu, '$1<span class="num-gap"></span>');
+}
+
 function setRoute(id) {
   document.querySelectorAll("[data-route]").forEach((el) => {
     el.classList.toggle("active", !!id && el.dataset.route === id);
@@ -92,6 +96,15 @@ function choose(id) {
 }
 
 function roomCard(room) {
+  const photo = room.image
+    ? `<img class="room-photo" src="${esc(room.image)}" alt="${esc(room.type)}">`
+    : "";
+  if (room.rates) {
+    const rates = room.rates.map((rate) => `<li class="room-price-row"><span class="rate-price">${esc(rate.price)}</span><span class="rate-people">${label(rate.people)}</span><span class="rate-meal">${rate.meal && rate.meal !== "食事なし" && rate.meal !== "無早餐" ? esc(rate.meal) : ""}</span></li>`).join("");
+    const stock = room.stock ? `<span class="stock">${esc(room.stock)}</span>` : "";
+    const equip = room.equip ? `<div class="meta">${esc(room.equip)}</div>` : "";
+    return `<div class="room has-rates${photo ? " has-photo" : ""}" tabindex="0"><div class="room-copy"><div class="type">${label(room.type)}</div>${equip}${stock}<ul class="rates">${rates}</ul></div>${photo}</div>`;
+  }
   return `<div class="room" tabindex="0"><div class="type">${esc(room.type)}</div><div class="price">${esc(room.price)}</div><div class="meta">${esc(room.meta) || "&nbsp;"}</div><span class="stock">${esc(room.stock)}</span></div>`;
 }
 
@@ -101,7 +114,10 @@ function hotelCard(hotel) {
     const rooms = hotel.rooms.filter((room) => room.date === date).map(roomCard).join("");
     return `<section class="date-group"><h3>${esc(date)}</h3><div class="rooms">${rooms}</div></section>`;
   }).join("");
-  return `<article class="hotel"><h2>${esc(hotel.name)}</h2>${groups}</article>`;
+  const booking = hotel.booking
+    ? `<a class="booking" href="${esc(hotel.booking)}" target="_blank" rel="noopener noreferrer" aria-label="Booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 0H0v24h24ZM8.575 6.563h2.658c2.108 0 3.473 1.15 3.473 2.898 0 1.15-.575 1.82-.91 2.108l-.287.263.335.192c.815.479 1.318 1.389 1.318 2.395 0 1.988-1.51 3.257-3.857 3.257H7.449V7.713c0-.623.503-1.126 1.126-1.15zm1.7 1.868c-.479.024-.694.264-.694.79v1.893h1.676c.958 0 1.294-.743 1.294-1.365 0-.815-.503-1.318-1.318-1.318zm-.096 4.36c-.407.071-.598.31-.598.79v2.251h1.868c.934 0 1.509-.55 1.509-1.533 0-.934-.599-1.509-1.51-1.509zm7.737 2.394c.743 0 1.341.599 1.341 1.342a1.34 1.34 0 0 1-1.341 1.341 1.355 1.355 0 0 1-1.341-1.341c0-.743.598-1.342 1.34-1.342z"/></svg></a>`
+    : "";
+  return `<article class="hotel"><div class="hotel-title"><h2>${esc(hotel.name)}</h2>${booking}</div>${groups}</article>`;
 }
 
 function openDetail(id) {
