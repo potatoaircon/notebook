@@ -140,12 +140,14 @@ function positionMobileCard(id) {
     const coversSelected = hits(pin, left, top, width, height);
     const coversOther = others.filter((box) => hits(box, left, top, width, height)).length;
     const arrowOnPin = boxes.some((box) => hits(box, arrow.left, arrow.top, 44, 44));
-    const above = top + height <= pin.top - gap + 2;
+    const gapAbove = pin.top - (top + height);
+    const cramped = gapAbove >= 0 && gapAbove < 12;
+    const above = gapAbove >= 12;
     const dist = Math.hypot(left + width / 2 - (pin.left + pin.width / 2), top + height / 2 - (pin.top + pin.height / 2));
     let preference = above ? -120 : 0;
     if (id === "hakuba" && left + width / 2 >= pin.left) preference -= 30;
     if (id === "echigo" && left + width / 2 <= pin.right) preference -= 30;
-    return { left, top, score: (coversSelected ? 8000 : 0) + (arrowOnPin ? 4000 : 0) + coversOther * 700 + dist + preference };
+    return { left, top, score: (coversSelected ? 8000 : 0) + (arrowOnPin ? 4000 : 0) + coversOther * 700 + (cramped ? 250 : 0) + dist + preference };
   }).sort((a, b) => a.score - b.score);
   mobileChoice.style.left = `${ranked[0].left - host.left}px`;
   mobileChoice.style.top = `${ranked[0].top - host.top}px`;
@@ -371,8 +373,122 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+const PORTRAIT_REGIONS = [
+  "M48 78 L148 52 L228 78 L248 156 L198 214 L86 198 L40 140 Z",
+  "M560 48 L640 62 L692 124 L664 196 L598 208 L536 146 Z",
+  "M648 250 L730 300 L786 382 L738 428 L662 396 L616 318 Z",
+  "M36 430 L130 378 L236 396 L272 462 L240 552 L142 578 L28 518 Z",
+  "M300 440 L408 408 L486 448 L524 542 L468 618 L356 598 L286 518 Z",
+  "M70 980 L168 934 L268 958 L300 1034 L262 1136 L156 1164 L48 1098 Z",
+  "M688 1040 L760 1068 L792 1160 L746 1224 L672 1204 L652 1120 Z",
+  "M28 690 L130 642 L230 668 L268 724 L236 808 L168 868 L70 860 L8 790 Z",
+  "M250 150 L350 112 L470 136 L530 210 L498 300 L410 340 L318 312 L268 258 L220 196 Z",
+  "M500 720 L610 692 L730 760 L764 852 L700 930 L590 928 L520 860 L488 780 Z",
+];
+const PORTRAIT_ROUTES = {
+  hakuba: "M598 1168 Q300 1080 178 748",
+  madarao: "M598 1168 Q520 680 408 248",
+  echigo: "M598 1168 Q740 1020 642 812",
+};
+const PORTRAIT_PINS = {
+  hakuba: { x: 178, y: 748, label: 790, rectX: 118, rectY: 717 },
+  madarao: { x: 408, y: 248, label: 291, rectX: 348, rectY: 223 },
+  echigo: { x: 642, y: 812, label: 853, rectX: 582, rectY: 803 },
+};
+const PORTRAIT_ORIGIN = { x: 598, y: 1168, title: 1213, small: 1231 };
+
+let mapSnapshot = null;
+let portraitOn = false;
+
+function snapshotMap() {
+  if (mapSnapshot) return;
+  const svg = document.querySelector(".map");
+  mapSnapshot = {
+    viewBox: svg.getAttribute("viewBox"),
+    regions: [...svg.querySelectorAll(".region")].map((el) => el.getAttribute("d")),
+    routes: [...svg.querySelectorAll(".route")].map((el) => [el.dataset.route, el.getAttribute("d")]),
+    pins: [...svg.querySelectorAll(".pin")].map((pin) => ({
+      id: pin.dataset.place,
+      circles: [...pin.querySelectorAll("circle")].map((el) => [el.getAttribute("cx"), el.getAttribute("cy")]),
+      rect: [pin.querySelector("rect").getAttribute("x"), pin.querySelector("rect").getAttribute("y")],
+      text: [pin.querySelector("text").getAttribute("x"), pin.querySelector("text").getAttribute("y")],
+      tspans: [...pin.querySelectorAll("tspan")].map((el) => el.getAttribute("x")),
+    })),
+    origin: [...svg.querySelectorAll(".origin circle, .origin text")].map((el) => ({
+      tag: el.tagName,
+      x: el.getAttribute(el.tagName === "circle" ? "cx" : "x"),
+      y: el.getAttribute(el.tagName === "circle" ? "cy" : "y"),
+    })),
+  };
+}
+
+function applyPortraitMap(on) {
+  if (on === portraitOn) return;
+  const svg = document.querySelector(".map");
+  snapshotMap();
+  if (!on) {
+    svg.setAttribute("viewBox", mapSnapshot.viewBox);
+    svg.querySelectorAll(".region").forEach((el, index) => el.setAttribute("d", mapSnapshot.regions[index]));
+    mapSnapshot.routes.forEach(([id, d]) => svg.querySelector(`[data-route="${id}"]`).setAttribute("d", d));
+    mapSnapshot.pins.forEach((pin) => {
+      const group = svg.querySelector(`[data-place="${pin.id}"]`);
+      group.querySelectorAll("circle").forEach((el, index) => {
+        el.setAttribute("cx", pin.circles[index][0]);
+        el.setAttribute("cy", pin.circles[index][1]);
+      });
+      const rect = group.querySelector("rect");
+      rect.setAttribute("x", pin.rect[0]);
+      rect.setAttribute("y", pin.rect[1]);
+      const text = group.querySelector("text");
+      text.setAttribute("x", pin.text[0]);
+      text.setAttribute("y", pin.text[1]);
+      group.querySelectorAll("tspan").forEach((el, index) => el.setAttribute("x", pin.tspans[index]));
+    });
+    svg.querySelectorAll(".origin circle, .origin text").forEach((el, index) => {
+      const saved = mapSnapshot.origin[index];
+      el.setAttribute(saved.tag === "circle" ? "cx" : "x", saved.x);
+      el.setAttribute(saved.tag === "circle" ? "cy" : "y", saved.y);
+    });
+    svg.classList.remove("is-portrait");
+    portraitOn = false;
+    return;
+  }
+  svg.setAttribute("viewBox", "0 0 820 1320");
+  svg.querySelectorAll(".region").forEach((el, index) => el.setAttribute("d", PORTRAIT_REGIONS[index]));
+  Object.entries(PORTRAIT_ROUTES).forEach(([id, d]) => svg.querySelector(`[data-route="${id}"]`).setAttribute("d", d));
+  Object.entries(PORTRAIT_PINS).forEach(([id, pin]) => {
+    const group = svg.querySelector(`[data-place="${id}"]`);
+    group.querySelectorAll("circle").forEach((el) => {
+      el.setAttribute("cx", pin.x);
+      el.setAttribute("cy", pin.y);
+    });
+    const rect = group.querySelector("rect");
+    rect.setAttribute("x", pin.rectX);
+    rect.setAttribute("y", pin.rectY);
+    const text = group.querySelector("text");
+    text.setAttribute("x", pin.x);
+    text.setAttribute("y", pin.label);
+    group.querySelectorAll("tspan").forEach((el) => el.setAttribute("x", pin.x));
+  });
+  const origin = svg.querySelector(".origin");
+  origin.querySelectorAll("circle").forEach((el) => {
+    el.setAttribute("cx", PORTRAIT_ORIGIN.x);
+    el.setAttribute("cy", PORTRAIT_ORIGIN.y);
+  });
+  const [title, small] = origin.querySelectorAll("text");
+  title.setAttribute("x", PORTRAIT_ORIGIN.x);
+  title.setAttribute("y", PORTRAIT_ORIGIN.title);
+  small.setAttribute("x", PORTRAIT_ORIGIN.x);
+  small.setAttribute("y", PORTRAIT_ORIGIN.small);
+  svg.classList.add("is-portrait");
+  portraitOn = true;
+}
+
+applyPortraitMap(phone());
+
 function leaveMobileMode() {
   hidePreview();
+  applyPortraitMap(phone());
   if (!phone()) {
     mobileChoice.style.left = "";
     mobileChoice.style.top = "";
