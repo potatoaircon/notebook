@@ -166,7 +166,14 @@ function resortBlock(place) {
   return `<div class="resorts"><p class="resort-note">時間為概算</p>${items}</div>`;
 }
 
-function openDetail(id) {
+const DETAIL_HASH = { madarao: "#madarao", hakuba: "#hakuba", echigo: "#echigo-nakazato" };
+const PLACE_FROM_HASH = { madarao: "madarao", hakuba: "hakuba", "echigo-nakazato": "echigo" };
+
+function placeFromLocation() {
+  return PLACE_FROM_HASH[location.hash.slice(1)] || null;
+}
+
+function showDetail(id) {
   if (!id || !places[id]) return;
   highlight(id);
   opened = true;
@@ -184,7 +191,17 @@ function openDetail(id) {
   window.scrollTo(0, 0);
 }
 
-function back() {
+function openDetail(id) {
+  if (!id || !places[id]) return;
+  if (history.state?.view === "detail" && history.state.place === id) {
+    showDetail(id);
+    return;
+  }
+  history.pushState({ view: "detail", place: id }, "", DETAIL_HASH[id]);
+  showDetail(id);
+}
+
+function showMap() {
   opened = false;
   detail.classList.remove("open");
   mapScreen.classList.remove("hidden");
@@ -192,6 +209,25 @@ function back() {
   mobileChoice.classList.remove("show");
   hidePreview();
   window.scrollTo(0, 0);
+}
+
+function back() {
+  if (history.state?.view === "detail") {
+    history.back();
+    return;
+  }
+  showMap();
+  if (location.hash) history.replaceState({ view: "map" }, "", location.pathname + location.search);
+}
+
+function syncFromHistory() {
+  if (history.state?.view === "map") {
+    showMap();
+    return;
+  }
+  const id = history.state?.view === "detail" ? history.state.place : placeFromLocation();
+  if (id && places[id]) showDetail(id);
+  else showMap();
 }
 
 const DOUBLE_TAP_MS = 320;
@@ -254,3 +290,16 @@ function leaveMobileMode() {
 
 window.addEventListener("resize", leaveMobileMode);
 mobileMedia.addEventListener("change", leaveMobileMode);
+window.addEventListener("popstate", syncFromHistory);
+
+const openedPlace = placeFromLocation();
+if (openedPlace) {
+  if (history.state?.view === "detail" && history.state.place === openedPlace) showDetail(openedPlace);
+  else {
+    history.replaceState({ view: "map" }, "", location.pathname + location.search);
+    history.pushState({ view: "detail", place: openedPlace }, "", DETAIL_HASH[openedPlace]);
+    showDetail(openedPlace);
+  }
+} else if (history.state?.view !== "map") {
+  history.replaceState({ view: "map" }, "", location.pathname + location.search + location.hash);
+}
