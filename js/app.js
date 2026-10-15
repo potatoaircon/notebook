@@ -100,13 +100,21 @@ function roomCard(room) {
     ? `<img class="room-photo" src="${esc(room.image)}" alt="${esc(room.type)}">`
     : "";
   if (room.rates) {
-    const rates = room.rates.map((rate) => `<li class="room-price-row"><span class="rate-price">${esc(rate.price)}</span><span class="rate-people">${label(rate.people)}</span><span class="rate-meal">${rate.meal && rate.meal !== "食事なし" && rate.meal !== "無早餐" ? esc(rate.meal) : ""}</span></li>`).join("");
+    const rates = room.rates.map((rate) => {
+      const third = rate.note
+        ? `<span class="rate-note">${esc(rate.note)}</span>`
+        : `<span class="rate-meal">${rate.meal && rate.meal !== "食事なし" && rate.meal !== "無早餐" ? esc(rate.meal) : ""}</span>`;
+      return `<li class="room-price-row"><span class="rate-price">${esc(rate.price)}</span><span class="rate-people">${label(rate.people)}</span>${third}</li>`;
+    }).join("");
     const stock = room.stock ? `<span class="stock">${esc(room.stock)}</span>` : "";
     const equip = room.equip ? `<div class="meta">${esc(room.equip)}</div>` : "";
-    return `<div class="room has-rates${photo ? " has-photo" : ""}" tabindex="0"><div class="room-copy"><div class="type">${label(room.type)}</div>${equip}${stock}<ul class="rates">${rates}</ul></div>${photo}</div>`;
+    const extra = room.breakfast ? `<div class="rate-extra">${esc(room.breakfast)}</div>` : "";
+    return `<div class="room has-rates${photo ? " has-photo" : ""}" tabindex="0"><div class="room-copy"><div class="type">${label(room.type)}</div>${equip}${stock}<ul class="rates">${rates}</ul>${extra}</div>${photo}</div>`;
   }
   return `<div class="room" tabindex="0"><div class="type">${esc(room.type)}</div><div class="price">${esc(room.price)}</div><div class="meta">${esc(room.meta) || "&nbsp;"}</div><span class="stock">${esc(room.stock)}</span></div>`;
 }
+
+const agodaLogo = `<svg viewBox="0 0 140 72" aria-hidden="true"><path fill="#FCB716" d="M40.84 50.37a10.35 10.35 0 1 0 .01 20.7 10.35 10.35 0 0 0-.01-20.7"/><path fill="#EE363F" d="M11.92 50.37a10.35 10.35 0 1 0 0 20.7 10.35 10.35 0 0 0 0-20.7"/><path fill="#07AF56" d="M69.76 50.37a10.35 10.35 0 1 0 .01 20.7 10.35 10.35 0 0 0-.01-20.7"/><path fill="#04A9DF" d="M127.61 50.37a10.35 10.35 0 1 0 0 20.7 10.35 10.35 0 0 0 0-20.7"/><path fill="#A1479A" d="M98.69 50.37a10.35 10.35 0 1 0-.01 20.7 10.35 10.35 0 0 0 .01-20.7"/><path fill="#5A5B5B" d="M0 21.05C0 14.33 5.39 9.27 12.05 9.27c6.71 0 12.05 5.02 12.05 11.73v10.32c0 1.05-.73 1.78-1.83 1.78-1.14 0-1.82-.73-1.82-1.78v-3.01h-.18c-1.42 2.42-4.25 4.52-8.45 4.52C5.34 32.82 0 27.8 0 21.05m20.54 0c0-4.84-3.65-8.49-8.49-8.49s-8.49 3.65-8.49 8.49 3.65 8.49 8.49 8.49 8.49-3.65 8.49-8.49M33.51 40.45c-.96-.46-1.42-1.28-1.05-2.24.36-1 .92-1.41 1.88-.96 1.64.78 3.7 1.32 5.89 1.32 5.43 0 8.72-3.24 8.72-8.76v-1.51h-.18c-1.42 2.42-4.25 4.52-8.45 4.52-6.48 0-11.82-5.02-11.82-11.78C19.5 14.33 24.89 9.27 31.55 9.27c6.71 0 12.05 5.02 12.05 11.73v8.58c0 7.4-4.75 12.37-12.51 12.37-2.37 0-4.75-.46-6.94-1.51m15.89-19.4c0-4.84-3.65-8.49-8.49-8.49s-8.49 3.65-8.49 8.49 3.65 8.49 8.49 8.49 8.49-3.65 8.49-8.49M57.7 21.05c0-6.71 5.34-11.78 12.05-11.78S81.81 14.33 81.81 21.05 76.47 32.82 69.76 32.82 57.7 27.76 57.7 21.05m20.54 0c0-4.84-3.65-8.49-8.49-8.49s-8.49 3.65-8.49 8.49 3.65 8.49 8.49 8.49 8.49-3.65 8.49-8.49M86.56 21.05c0-6.71 5.29-11.78 11.82-11.78 4.2 0 7.03 2.1 8.45 4.52h.18V1.78c0-1.05.73-1.78 1.83-1.78s1.82.73 1.82 1.78v19.31c0 6.71-5.34 11.73-12.05 11.73-6.67 0-12.05-5.07-12.05-11.78m20.54 0c0-4.84-3.65-8.49-8.49-8.49s-8.49 3.65-8.49 8.49 3.65 8.49 8.49 8.49 8.49-3.65 8.49-8.49M115.41 21.05c0-6.71 5.39-11.78 12.05-11.78 6.71 0 12.05 5.02 12.05 11.73v10.32c0 1.05-.73 1.78-1.83 1.78-1.14 0-1.82-.73-1.82-1.78v-3.01h-.18c-1.42 2.42-4.25 4.52-8.45 4.52-6.48 0-11.82-5.02-11.82-11.78m20.54 0c0-4.84-3.65-8.49-8.49-8.49s-8.49 3.65-8.49 8.49 3.65 8.49 8.49 8.49 8.49-3.65 8.49-8.49"/></svg>`;
 
 function hotelCard(hotel) {
   const dates = [...new Set(hotel.rooms.map((room) => room.date))];
@@ -117,7 +125,11 @@ function hotelCard(hotel) {
   const booking = hotel.booking
     ? `<a class="booking" href="${esc(hotel.booking)}" target="_blank" rel="noopener noreferrer" aria-label="Booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 0H0v24h24ZM8.575 6.563h2.658c2.108 0 3.473 1.15 3.473 2.898 0 1.15-.575 1.82-.91 2.108l-.287.263.335.192c.815.479 1.318 1.389 1.318 2.395 0 1.988-1.51 3.257-3.857 3.257H7.449V7.713c0-.623.503-1.126 1.126-1.15zm1.7 1.868c-.479.024-.694.264-.694.79v1.893h1.676c.958 0 1.294-.743 1.294-1.365 0-.815-.503-1.318-1.318-1.318zm-.096 4.36c-.407.071-.598.31-.598.79v2.251h1.868c.934 0 1.509-.55 1.509-1.533 0-.934-.599-1.509-1.51-1.509zm7.737 2.394c.743 0 1.341.599 1.341 1.342a1.34 1.34 0 0 1-1.341 1.341 1.355 1.355 0 0 1-1.341-1.341c0-.743.598-1.342 1.34-1.342z"/></svg></a>`
     : "";
-  return `<article class="hotel"><div class="hotel-title"><h2>${esc(hotel.name)}</h2>${booking}</div>${groups}</article>`;
+  const agoda = hotel.agoda
+    ? `<a class="agoda" href="${esc(hotel.agoda)}" target="_blank" rel="noopener noreferrer" aria-label="Agoda">${agodaLogo}</a>`
+    : "";
+  const links = booking || agoda ? `<div class="hotel-links">${booking}${agoda}</div>` : "";
+  return `<article class="hotel"><div class="hotel-title"><h2>${esc(hotel.name)}</h2>${links}</div>${groups}</article>`;
 }
 
 function fareBlock(place) {

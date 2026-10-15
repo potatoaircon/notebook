@@ -43,18 +43,21 @@
           <path class="route" data-route="echigo" d="M662 645 Q685 470 611 319"></path>
           <g class="pin" data-place="hakuba" role="button" tabindex="0" aria-pressed="false" aria-label="查看白馬交通資訊">
             <circle class="hit" cx="212" cy="361" r="55"></circle>
+            <rect class="label-hit" x="152" y="330" width="120" height="120"></rect>
             <circle class="outer" cx="212" cy="361" r="15"></circle>
             <circle class="inner" cx="212" cy="361" r="5"></circle>
             <text class="place-label" x="212" y="403" text-anchor="middle">HAKUBA</text>
           </g>
           <g class="pin" data-place="madarao" role="button" tabindex="0" aria-pressed="false" aria-label="查看斑尾飯店及交通資訊">
             <circle class="hit" cx="371" cy="193" r="54"></circle>
+            <rect class="label-hit" x="311" y="168" width="120" height="120"></rect>
             <circle class="outer" cx="371" cy="193" r="15"></circle>
             <circle class="inner" cx="371" cy="193" r="5"></circle>
             <text class="place-label" x="371" y="236" text-anchor="middle">MADARAO</text>
           </g>
           <g class="pin" data-place="echigo" role="button" tabindex="0" aria-pressed="false" aria-label="查看越後中里交通資訊">
             <circle class="hit" cx="611" cy="319" r="54"></circle>
+            <rect class="label-hit" x="551" y="310" width="120" height="120"></rect>
             <circle class="outer" cx="611" cy="319" r="15"></circle>
             <circle class="inner" cx="611" cy="319" r="5"></circle>
             <text class="place-label" x="611" y="360" text-anchor="middle">
@@ -87,7 +90,7 @@
       </div>
     </main>
     <main class="detail-screen" id="detail">
-      <button class="back" id="back" type="button">← 返回地圖</button>
+      <button class="back" id="back" type="button" aria-label="返回地圖">←</button>
       <section id="content"></section>
     </main>
   </div>

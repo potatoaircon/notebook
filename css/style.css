@@ -100,6 +100,7 @@ a:focus-visible,
 
 .pin:focus-visible .outer { stroke-width: 4; }
 .pin .hit { fill: transparent; pointer-events: all; }
+.pin .label-hit { fill: transparent; pointer-events: none; }
 
 .pin .outer {
   fill: var(--paper);
@@ -328,11 +329,16 @@ a:focus-visible,
 }
 
 .hotel h2 { font-size: 17px; margin: 0 0 18px; }
-.hotel-title { display: flex; align-items: center; gap: 8px; margin: 0 0 18px; }
+.hotel-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
 .hotel-title h2 { margin: 0; }
-.booking { display: inline-flex; flex-shrink: 0; color: var(--red2); line-height: 0; }
-.booking svg { width: 22px; height: 22px; display: block; }
+.hotel-links { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.booking, .agoda { display: inline-flex; flex-shrink: 0; line-height: 0; }
+.booking { color: var(--red2); }
+.booking svg, .agoda svg { height: 22px; display: block; }
+.booking svg { width: 22px; }
+.agoda svg { width: auto; }
 .booking:hover { color: var(--red); }
+.agoda:hover { opacity: .82; }
 .date-group { margin-top: 18px; }
 .date-group h3 { font-size: 12px; letter-spacing: .1em; margin: 0 0 9px; color: #7c716b; }
 
@@ -388,11 +394,14 @@ a:focus-visible,
 }
 
 .rate-people,
-.rate-meal {
+.rate-meal,
+.rate-note {
   font-size: 11px;
   color: #7c7f78;
   white-space: nowrap;
 }
+
+.rate-extra { margin-top: 10px; font-size: 12px; color: #7c7f78; }
 
 .num-gap { display: inline-block; width: 0.28em; }
 
@@ -443,6 +452,34 @@ a:focus-visible,
 @media (max-width: 700px), ((hover: none) and (pointer: coarse)) {
   .map-screen { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
   .hover-note { display: none; }
+  .pin .label-hit,
+  .place-label { pointer-events: all; }
+
+  .next {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .next:hover,
+  .next:active {
+    background: var(--red2);
+    color: #fff;
+  }
 
   .mobile-choice {
     position: fixed;
@@ -464,22 +501,6 @@ a:focus-visible,
   .mobile-choice > div { min-width: 0; }
   .mobile-choice strong { font-size: 14px; display: block; }
   .mobile-choice small { font-size: 11px; display: block; margin-top: 5px; color: #6d7068; line-height: 1.5; }
-
-  .next {
-    width: 45px;
-    height: 45px;
-    border: 1px solid var(--ink);
-    background: transparent;
-    font-size: 26px;
-    flex-shrink: 0;
-    transition: .18s;
-  }
-
-  .next:hover,
-  .next:active {
-    background: #f0dad2;
-    transform: translateX(3px);
-  }
 }
 
 @media (max-width: 700px) {
