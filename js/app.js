@@ -154,6 +154,18 @@ function fareBlock(place) {
   return `<div class="fares"><div class="fare-head">新幹線 ${esc(fare.date)}　${esc(fare.label)}</div><div class="fare-route">${esc(fare.route)}</div><ul class="fare-list">${rows}</ul>${passes ? `<ul class="passes">${passes}</ul>` : ""}</div>`;
 }
 
+function resortBlock(place) {
+  if (!place.resorts || !place.resorts.length) return "";
+  const items = place.resorts.map((resort) => {
+    const route = resort.stops.map((stop, index) => {
+      const leg = index ? `<div class="resort-leg"><span class="arrow">↓</span><span>${esc(resort.legs[index - 1])}</span></div>` : "";
+      return `${leg}<div class="resort-stop">${esc(stop)}</div>`;
+    }).join("");
+    return `<section class="resort"><h3>${esc(resort.name)}</h3><div class="resort-en">${esc(resort.en)}</div><div class="resort-time">${esc(resort.time)}</div><div class="resort-route">${route}</div><a class="maps" href="${esc(resort.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></section>`;
+  }).join("");
+  return `<div class="resorts"><p class="resort-note">時間為概算</p>${items}</div>`;
+}
+
 function openDetail(id) {
   if (!id || !places[id]) return;
   highlight(id);
@@ -162,9 +174,10 @@ function openDetail(id) {
   const steps = place.steps.map((step, index) => `${index ? '<span class="arrow">→</span>' : ""}<span>${esc(step)}</span>`).join("");
   const hotels = place.hotels.length
     ? place.hotels.map(hotelCard).join("")
-    : '<div class="empty">尚未新增住宿資料</div>';
+    : '<div class="empty">No accommodation added yet</div>';
   const fares = fareBlock(place);
-  content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">ACCESS</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div>${fares}<a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></div><div class="section-label">HOTEL</div>${hotels}`;
+  const resorts = resortBlock(place);
+  content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">ACCESS</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div>${resorts}${fares}<a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></div><div class="section-label">HOTEL</div>${hotels}`;
   mapScreen.classList.add("hidden");
   detail.classList.add("open");
   mobileChoice.classList.remove("show");
