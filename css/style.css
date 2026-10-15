@@ -329,8 +329,10 @@ a:focus-visible,
 }
 
 .hotel h2 { font-size: 17px; margin: 0 0 18px; }
-.hotel-title { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.hotel-title { margin: 0 0 18px; }
+.hotel-name-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .hotel-title h2 { margin: 0; }
+.hotel-en { margin-top: 3px; font-size: 12px; color: #7c7f78; }
 .hotel-links { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .booking, .agoda { display: inline-flex; flex-shrink: 0; line-height: 0; }
 .booking { color: var(--red2); }
