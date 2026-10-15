@@ -1,19 +1,55 @@
-<svg aria-label="東京為起點的三個旅行目的地互動地圖：白馬、斑尾、越後中里" class="map" role="img" viewbox="0 0 820 750"><defs><pattern height="13" id="redhatch" patterntransform="rotate(-42)" patternunits="userSpaceOnUse" width="13"><rect fill="#e9c8be" height="13" width="13"></rect><rect fill="#d47768" height="13" width="2"></rect></pattern><pattern height="13" id="greenhatch" patterntransform="rotate(-42)" patternunits="userSpaceOnUse" width="13"><rect fill="#dfe4d6" height="13" width="13"></rect><rect fill="#94a28a" height="13" width="2"></rect></pattern></defs>
-<!-- Decorative regions are separate vector shapes, not one background image. Only named points are destinations. -->
-<path class="region decorative" d="M72 124 L160 99 L230 121 L246 189 L206 237 L104 220 L65 175 Z" fill="url(#redhatch)"></path>
-<path class="region decorative" d="M505 65 L571 75 L615 126 L592 189 L537 201 L485 149 Z" fill="url(#greenhatch)"></path>
-<path class="region decorative" d="M630 86 L707 132 L757 205 L714 237 L649 209 L608 144 Z" fill="url(#greenhatch)"></path>
-<path class="region decorative" d="M76 516 L155 467 L255 482 L286 537 L259 622 L171 644 L72 595 Z" fill="url(#redhatch)"></path>
-<path class="region decorative" d="M323 469 L415 442 L476 471 L511 558 L462 617 L369 598 L314 533 Z" fill="url(#greenhatch)"></path>
-<path class="region decorative" d="M504 607 L564 579 L620 613 L612 692 L548 712 L491 665 Z" fill="url(#redhatch)"></path>
-<path class="region decorative" d="M706 435 L761 456 L785 539 L742 587 L678 570 L663 501 Z" fill="url(#greenhatch)"></path>
-<!-- Geographic projection is schematic, keeping north/west/east relationships -->
-<path class="region" d="M90 321 L166 279 L240 295 L278 335 L250 401 L214 451 L109 448 L60 395 Z" data-region="hakuba" fill="url(#greenhatch)"></path>
-<path class="region" d="M281 115 L354 91 L453 111 L494 173 L467 246 L399 276 L324 252 L280 217 L240 179 Z" data-region="madarao" fill="url(#redhatch)"></path>
-<path class="region" d="M510 230 L600 211 L700 269 L728 348 L678 409 L588 408 L524 357 L484 290 Z" data-region="echigo" fill="url(#greenhatch)"></path>
-<path class="route" d="M662 645 Q401 571 212 361" data-route="hakuba"></path><path class="route" d="M662 645 Q498 414 371 193" data-route="madarao"></path><path class="route" d="M662 645 Q685 470 611 319" data-route="echigo"></path>
-<g aria-label="查看白馬交通資訊" class="pin" data-place="hakuba" role="button" tabindex="0"><circle class="hit" cx="212" cy="361" r="55"></circle><circle class="outer" cx="212" cy="361" r="15"></circle><circle class="inner" cx="212" cy="361" r="5"></circle><text class="place-label" text-anchor="middle" x="212" y="403">HAKUBA</text></g>
-<g aria-label="查看斑尾飯店及交通資訊" class="pin" data-place="madarao" role="button" tabindex="0"><circle class="hit" cx="371" cy="193" r="54"></circle><circle class="outer" cx="371" cy="193" r="15"></circle><circle class="inner" cx="371" cy="193" r="5"></circle><text class="place-label" text-anchor="middle" x="371" y="236">MADARAO</text></g>
-<g aria-label="查看越後中里交通資訊" class="pin" data-place="echigo" role="button" tabindex="0"><circle class="hit" cx="611" cy="319" r="54"></circle><circle class="outer" cx="611" cy="319" r="15"></circle><circle class="inner" cx="611" cy="319" r="5"></circle><text class="place-label" text-anchor="middle" x="611" y="360"><tspan x="611">ECHIGO</tspan><tspan dy="19" x="611">NAKAZATO</tspan></text></g>
-<circle cx="662" cy="645" fill="#f5f1e9" r="20"></circle><circle cx="662" cy="645" fill="#272c28" r="10"></circle><circle cx="662" cy="645" fill="#faf7f0" r="2.5"></circle><text class="map-title" text-anchor="middle" x="662" y="690">TOKYO</text><text class="map-small" text-anchor="middle" x="662" y="708">START HERE</text>
+<svg xmlns="http://www.w3.org/2000/svg" class="map" viewBox="0 0 820 750" role="img" aria-label="東京為起點的三個旅行目的地互動地圖：白馬、斑尾、越後中里">
+  <defs>
+    <pattern id="redhatch" width="13" height="13" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)">
+      <rect width="13" height="13" fill="#e9c8be"></rect>
+      <rect width="2" height="13" fill="#d47768"></rect>
+    </pattern>
+    <pattern id="greenhatch" width="13" height="13" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)">
+      <rect width="13" height="13" fill="#dfe4d6"></rect>
+      <rect width="2" height="13" fill="#94a28a"></rect>
+    </pattern>
+  </defs>
+  <!-- Decorative regions are separate vector shapes. Only the three named pins are destinations. -->
+  <path class="region decorative" fill="url(#redhatch)" d="M72 124 L160 99 L230 121 L246 189 L206 237 L104 220 L65 175 Z"></path>
+  <path class="region decorative" fill="url(#greenhatch)" d="M505 65 L571 75 L615 126 L592 189 L537 201 L485 149 Z"></path>
+  <path class="region decorative" fill="url(#greenhatch)" d="M630 86 L707 132 L757 205 L714 237 L649 209 L608 144 Z"></path>
+  <path class="region decorative" fill="url(#redhatch)" d="M76 516 L155 467 L255 482 L286 537 L259 622 L171 644 L72 595 Z"></path>
+  <path class="region decorative" fill="url(#greenhatch)" d="M323 469 L415 442 L476 471 L511 558 L462 617 L369 598 L314 533 Z"></path>
+  <path class="region decorative" fill="url(#redhatch)" d="M504 607 L564 579 L620 613 L612 692 L548 712 L491 665 Z"></path>
+  <path class="region decorative" fill="url(#greenhatch)" d="M706 435 L761 456 L785 539 L742 587 L678 570 L663 501 Z"></path>
+  <!-- Schematic placement: Hakuba west, Madarao north, Echigo east, Tokyo south. -->
+  <path class="region" data-region="hakuba" fill="url(#greenhatch)" d="M90 321 L166 279 L240 295 L278 335 L250 401 L214 451 L109 448 L60 395 Z"></path>
+  <path class="region" data-region="madarao" fill="url(#redhatch)" d="M281 115 L354 91 L453 111 L494 173 L467 246 L399 276 L324 252 L280 217 L240 179 Z"></path>
+  <path class="region" data-region="echigo" fill="url(#greenhatch)" d="M510 230 L600 211 L700 269 L728 348 L678 409 L588 408 L524 357 L484 290 Z"></path>
+  <path class="route" data-route="hakuba" fill="none" stroke="#9b9a90" stroke-width="1.8" stroke-dasharray="5 10" d="M662 645 Q401 571 212 361"></path>
+  <path class="route" data-route="madarao" fill="none" stroke="#9b9a90" stroke-width="1.8" stroke-dasharray="5 10" d="M662 645 Q498 414 371 193"></path>
+  <path class="route" data-route="echigo" fill="none" stroke="#9b9a90" stroke-width="1.8" stroke-dasharray="5 10" d="M662 645 Q685 470 611 319"></path>
+  <g class="pin" data-place="hakuba">
+    <circle class="hit" cx="212" cy="361" r="55" fill="transparent"></circle>
+    <circle class="outer" cx="212" cy="361" r="15" fill="#f5f1e9" stroke="#272c28" stroke-width="2.3"></circle>
+    <circle class="inner" cx="212" cy="361" r="5" fill="#d47768"></circle>
+    <text class="place-label" x="212" y="403" text-anchor="middle" fill="#272c28" font-size="15" font-weight="800">HAKUBA</text>
+  </g>
+  <g class="pin" data-place="madarao">
+    <circle class="hit" cx="371" cy="193" r="54" fill="transparent"></circle>
+    <circle class="outer" cx="371" cy="193" r="15" fill="#f5f1e9" stroke="#272c28" stroke-width="2.3"></circle>
+    <circle class="inner" cx="371" cy="193" r="5" fill="#d47768"></circle>
+    <text class="place-label" x="371" y="236" text-anchor="middle" fill="#272c28" font-size="15" font-weight="800">MADARAO</text>
+  </g>
+  <g class="pin" data-place="echigo">
+    <circle class="hit" cx="611" cy="319" r="54" fill="transparent"></circle>
+    <circle class="outer" cx="611" cy="319" r="15" fill="#f5f1e9" stroke="#272c28" stroke-width="2.3"></circle>
+    <circle class="inner" cx="611" cy="319" r="5" fill="#d47768"></circle>
+    <text class="place-label" x="611" y="360" text-anchor="middle" fill="#272c28" font-size="15" font-weight="800">
+      <tspan x="611">ECHIGO</tspan>
+      <tspan x="611" dy="19">NAKAZATO</tspan>
+    </text>
+  </g>
+  <g class="origin">
+    <circle cx="662" cy="645" r="20" fill="#f5f1e9"></circle>
+    <circle cx="662" cy="645" r="10" fill="#272c28"></circle>
+    <circle cx="662" cy="645" r="2.5" fill="#faf7f0"></circle>
+    <text class="map-title" x="662" y="690" text-anchor="middle" font-size="12" font-weight="800">TOKYO</text>
+    <text class="map-small" x="662" y="708" text-anchor="middle" font-size="10" fill="#89877c">START HERE</text>
+  </g>
 </svg>
