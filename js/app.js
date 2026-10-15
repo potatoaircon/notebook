@@ -147,6 +147,7 @@ function positionMobileCard(id) {
     let preference = above ? -120 : 0;
     if (id === "hakuba" && left + width / 2 >= pin.left) preference -= 30;
     if (id === "echigo" && left + width / 2 <= pin.right) preference -= 30;
+    if (id === "madarao" && above && left >= pin.left - 8) preference -= 50;
     return { left, top, score: (coversSelected ? 8000 : 0) + (arrowOnPin ? 4000 : 0) + coversOther * 700 + (cramped ? 250 : 0) + dist + preference };
   }).sort((a, b) => a.score - b.score);
   mobileChoice.style.left = `${ranked[0].left - host.left}px`;
@@ -374,28 +375,28 @@ document.addEventListener("keydown", (event) => {
 });
 
 const PORTRAIT_REGIONS = [
-  "M48 78 L148 52 L228 78 L248 156 L198 214 L86 198 L40 140 Z",
-  "M560 48 L640 62 L692 124 L664 196 L598 208 L536 146 Z",
-  "M648 250 L730 300 L786 382 L738 428 L662 396 L616 318 Z",
-  "M36 430 L130 378 L236 396 L272 462 L240 552 L142 578 L28 518 Z",
-  "M300 440 L408 408 L486 448 L524 542 L468 618 L356 598 L286 518 Z",
-  "M70 980 L168 934 L268 958 L300 1034 L262 1136 L156 1164 L48 1098 Z",
-  "M688 1040 L760 1068 L792 1160 L746 1224 L672 1204 L652 1120 Z",
-  "M28 690 L130 642 L230 668 L268 724 L236 808 L168 868 L70 860 L8 790 Z",
-  "M250 150 L350 112 L470 136 L530 210 L498 300 L410 340 L318 312 L268 258 L220 196 Z",
-  "M500 720 L610 692 L730 760 L764 852 L700 930 L590 928 L520 860 L488 780 Z",
+  "M55 210 L125 168 L198 198 L214 262 L148 318 L68 292 L36 240 Z",
+  "M0 338 L96 292 L188 338 L214 418 L136 478 L28 456 L0 388 Z",
+  "M528 286 L642 252 L724 302 L702 372 L588 396 L516 342 Z",
+  "M328 468 L402 446 L456 502 L424 566 L348 560 L312 508 Z",
+  "M492 388 L612 352 L708 412 L686 508 L552 538 L470 468 Z",
+  "M0 868 L128 792 L286 836 L368 948 L332 1088 L168 1148 L24 1072 L0 948 Z",
+  "M286 1036 L428 978 L512 1052 L478 1156 L338 1180 L258 1092 Z",
+  "M18 468 L146 404 L286 448 L338 548 L292 676 L162 734 L48 688 L0 566 Z",
+  "M148 214 L286 128 L438 118 L552 198 L574 318 L486 428 L318 468 L184 404 L128 300 Z",
+  "M508 552 L668 488 L792 552 L820 688 L724 812 L572 836 L488 728 L478 612 Z",
 ];
 const PORTRAIT_ROUTES = {
-  hakuba: "M598 1168 Q300 1080 178 748",
-  madarao: "M598 1168 Q520 680 408 248",
-  echigo: "M598 1168 Q740 1020 642 812",
+  hakuba: "M584 1005 Q210 900 251 513",
+  madarao: "M584 1005 Q490 680 348 325",
+  echigo: "M584 1005 Q710 850 628 625",
 };
 const PORTRAIT_PINS = {
-  hakuba: { x: 178, y: 748, label: 790, rectX: 118, rectY: 717 },
-  madarao: { x: 408, y: 248, label: 291, rectX: 348, rectY: 223 },
-  echigo: { x: 642, y: 812, label: 853, rectX: 582, rectY: 803 },
+  hakuba: { x: 251, y: 513, label: 555, rectX: 191, rectY: 482 },
+  madarao: { x: 348, y: 325, label: 368, rectX: 288, rectY: 300 },
+  echigo: { x: 628, y: 625, label: 666, rectX: 568, rectY: 616 },
 };
-const PORTRAIT_ORIGIN = { x: 598, y: 1168, title: 1213, small: 1231 };
+const PORTRAIT_ORIGIN = { x: 584, y: 1005, title: 1050, small: 1068 };
 
 let mapSnapshot = null;
 let portraitOn = false;
@@ -415,9 +416,9 @@ function snapshotMap() {
       tspans: [...pin.querySelectorAll("tspan")].map((el) => el.getAttribute("x")),
     })),
     origin: [...svg.querySelectorAll(".origin circle, .origin text")].map((el) => ({
-      tag: el.tagName,
-      x: el.getAttribute(el.tagName === "circle" ? "cx" : "x"),
-      y: el.getAttribute(el.tagName === "circle" ? "cy" : "y"),
+      tag: el.localName,
+      x: el.getAttribute(el.localName === "circle" ? "cx" : "x"),
+      y: el.getAttribute(el.localName === "circle" ? "cy" : "y"),
     })),
   };
 }
@@ -453,7 +454,7 @@ function applyPortraitMap(on) {
     portraitOn = false;
     return;
   }
-  svg.setAttribute("viewBox", "0 0 820 1320");
+  svg.setAttribute("viewBox", "0 0 820 1230");
   svg.querySelectorAll(".region").forEach((el, index) => el.setAttribute("d", PORTRAIT_REGIONS[index]));
   Object.entries(PORTRAIT_ROUTES).forEach(([id, d]) => svg.querySelector(`[data-route="${id}"]`).setAttribute("d", d));
   Object.entries(PORTRAIT_PINS).forEach(([id, pin]) => {

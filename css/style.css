@@ -640,7 +640,7 @@ a:focus-visible,
   .map:not(.is-portrait) { visibility: hidden; }
 
   .map-wrap {
-    width: min(96vw, calc(100% - 24px));
+    width: min(95vw, calc(100% - 16px));
     flex: 0 0 auto;
   }
 
