@@ -7,11 +7,13 @@ const content = document.querySelector("#content");
 const hoverNote = document.querySelector("#hoverNote");
 const mobileChoice = document.querySelector("#mobileChoice");
 const mobileMedia = matchMedia("(max-width: 700px), ((hover: none) and (pointer: coarse))");
+const phoneMedia = matchMedia("(max-width: 767px)");
 
 let current = null;
 let opened = false;
 
 const mobile = () => mobileMedia.matches;
+const phone = () => phoneMedia.matches;
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -84,14 +86,85 @@ function showMobileChoice(id) {
   document.querySelector("#choiceName").textContent = places[id].jp;
   const time = document.querySelector("#choiceTime");
   time.replaceChildren(places[id].line, document.createElement("br"), places[id].time);
+  document.querySelector("#choiceRide").textContent = places[id].time;
+  document.querySelector("#choiceMode").textContent = places[id].line;
+  const opening = !mobileChoice.classList.contains("show");
+  clearTimeout(cardTimer);
+  mobileChoice.classList.remove("is-closing");
   mobileChoice.classList.add("show");
+  if (phone()) positionMobileCard(id);
+  if (opening) mobileChoice.classList.add("is-in");
+}
+
+let cardTimer = 0;
+
+function pinVisualBox(id) {
+  const outer = document.querySelector(`[data-place="${id}"] .outer`).getBoundingClientRect();
+  const label = document.querySelector(`[data-place="${id}"] .place-label`).getBoundingClientRect();
+  const left = Math.min(outer.left, label.left);
+  const top = Math.min(outer.top, label.top);
+  const right = Math.max(outer.right, label.right);
+  const bottom = Math.max(outer.bottom, label.bottom);
+  return { left, top, right, bottom, width: right - left, height: bottom - top };
+}
+
+function positionMobileCard(id) {
+  const boxes = ["madarao", "hakuba", "echigo"].map((place) => ({ place, ...pinVisualBox(place) }));
+  const pin = boxes.find((box) => box.place === id);
+  const others = boxes.filter((box) => box.place !== id);
+  const host = mapScreen.getBoundingClientRect();
+  const gap = 14;
+  const margin = 16;
+  const width = mobileChoice.offsetWidth;
+  const height = mobileChoice.offsetHeight;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const hits = (box, left, top, w, h) =>
+    left < box.right - 1 && left + w > box.left + 1 && top < box.bottom - 1 && top + h > box.top + 1;
+  const spots = [
+    [pin.left + pin.width / 2 - width / 2, pin.top - gap - height],
+    [pin.right - width, pin.top - gap - height],
+    [pin.left, pin.top - gap - height],
+    [pin.right + gap, pin.top - height * 0.4],
+    [pin.left - width - gap, pin.top - height * 0.4],
+    [pin.left + pin.width / 2 - width / 2, pin.bottom + gap],
+    [pin.left, pin.bottom + gap],
+    [pin.right - width, pin.bottom + gap],
+  ];
+  const lowest = Math.max(...boxes.map((box) => box.bottom));
+  spots.push([pin.left + pin.width / 2 - width / 2, lowest + gap], [margin, lowest + gap]);
+  const ranked = spots.map(([x, y]) => {
+    const left = Math.max(margin, Math.min(x, vw - margin - width));
+    const top = Math.max(margin, Math.min(y, vh - margin - height));
+    const arrow = { left: left + width - 52, top: top + 8 };
+    const coversSelected = hits(pin, left, top, width, height);
+    const coversOther = others.filter((box) => hits(box, left, top, width, height)).length;
+    const arrowOnPin = boxes.some((box) => hits(box, arrow.left, arrow.top, 44, 44));
+    const above = top + height <= pin.top - gap + 2;
+    const dist = Math.hypot(left + width / 2 - (pin.left + pin.width / 2), top + height / 2 - (pin.top + pin.height / 2));
+    let preference = above ? -120 : 0;
+    if (id === "hakuba" && left + width / 2 >= pin.left) preference -= 30;
+    if (id === "echigo" && left + width / 2 <= pin.right) preference -= 30;
+    return { left, top, score: (coversSelected ? 8000 : 0) + (arrowOnPin ? 4000 : 0) + coversOther * 700 + dist + preference };
+  }).sort((a, b) => a.score - b.score);
+  mobileChoice.style.left = `${ranked[0].left - host.left}px`;
+  mobileChoice.style.top = `${ranked[0].top - host.top}px`;
+}
+
+function dismissMobileCard() {
+  if (!mobileChoice.classList.contains("show")) return;
+  mobileChoice.classList.remove("show", "is-in");
+  mobileChoice.classList.add("is-closing");
+  highlight(null);
+  clearTimeout(cardTimer);
+  cardTimer = setTimeout(() => mobileChoice.classList.remove("is-closing"), 150);
 }
 
 function choose(id) {
   if (!places[id]) return;
   highlight(id);
   hidePreview();
-  if (mobile()) showMobileChoice(id);
+  if (phone() || mobile()) showMobileChoice(id);
   else openDetail(id);
 }
 
@@ -187,7 +260,7 @@ function showDetail(id) {
   content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">ACCESS</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div>${resorts}${fares}<a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></div><div class="section-label">HOTEL</div>${hotels}`;
   mapScreen.classList.add("hidden");
   detail.classList.add("open");
-  mobileChoice.classList.remove("show");
+  mobileChoice.classList.remove("show", "is-in", "is-closing");
   window.scrollTo(0, 0);
 }
 
@@ -206,7 +279,9 @@ function showMap() {
   detail.classList.remove("open");
   mapScreen.classList.remove("hidden");
   highlight(null);
-  mobileChoice.classList.remove("show");
+  mobileChoice.classList.remove("show", "is-in", "is-closing");
+  mobileChoice.style.left = "";
+  mobileChoice.style.top = "";
   hidePreview();
   window.scrollTo(0, 0);
 }
@@ -235,7 +310,7 @@ let lastPinTap = { id: null, time: 0 };
 
 function activatePin(id) {
   const now = Date.now();
-  const repeat = mobile() && lastPinTap.id === id && now - lastPinTap.time <= DOUBLE_TAP_MS;
+  const repeat = mobile() && !phone() && lastPinTap.id === id && now - lastPinTap.time <= DOUBLE_TAP_MS;
   lastPinTap = repeat ? { id: null, time: 0 } : { id, time: now };
   if (!repeat) {
     choose(id);
@@ -258,7 +333,7 @@ document.querySelectorAll("[data-place]").forEach((el) => {
   });
   el.addEventListener("dblclick", (event) => {
     event.preventDefault();
-    if (mobile()) return;
+    if (mobile() || phone()) return;
     highlight(id);
     hidePreview();
     openDetail(id);
@@ -272,25 +347,51 @@ document.querySelectorAll("[data-place]").forEach((el) => {
 });
 
 document.querySelector("#next").addEventListener("click", () => openDetail(current));
+mobileChoice.addEventListener("click", (event) => {
+  if (phone() && !event.target.closest(".next")) {
+    const pin = document.elementsFromPoint(event.clientX, event.clientY).map((el) => el.closest(".pin")).find(Boolean);
+    if (pin) {
+      activatePin(pin.dataset.place);
+      return;
+    }
+  }
+  event.stopPropagation();
+});
 document.querySelector("#back").addEventListener("click", back);
 
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (opened) back();
   else if (mobileChoice.classList.contains("show")) {
-    mobileChoice.classList.remove("show");
-    highlight(null);
+    if (phone()) dismissMobileCard();
+    else {
+      mobileChoice.classList.remove("show");
+      highlight(null);
+    }
   }
 });
 
 function leaveMobileMode() {
   hidePreview();
-  if (!mobile()) mobileChoice.classList.remove("show");
+  if (!phone()) {
+    mobileChoice.style.left = "";
+    mobileChoice.style.top = "";
+  }
+  if (!mobile() && !phone()) mobileChoice.classList.remove("show", "is-in", "is-closing");
+  else if (phone() && mobileChoice.classList.contains("show") && current) positionMobileCard(current);
 }
 
 window.addEventListener("resize", leaveMobileMode);
 mobileMedia.addEventListener("change", leaveMobileMode);
 window.addEventListener("popstate", syncFromHistory);
+document.addEventListener("click", (event) => {
+  if (!phone() || !mobileChoice.classList.contains("show")) return;
+  if (event.target.closest(".mobile-choice, .pin")) return;
+  const compass = document.querySelector(".compass").getBoundingClientRect();
+  const { clientX: x, clientY: y } = event;
+  if (x >= compass.left && x <= compass.right && y >= compass.top && y <= compass.bottom) return;
+  dismissMobileCard();
+});
 
 const openedPlace = placeFromLocation();
 if (openedPlace) {
