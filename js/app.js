@@ -120,6 +120,13 @@ function hotelCard(hotel) {
   return `<article class="hotel"><div class="hotel-title"><h2>${esc(hotel.name)}</h2>${booking}</div>${groups}</article>`;
 }
 
+function fareBlock(place) {
+  if (!place.fares) return "";
+  const fare = place.fares;
+  const rows = fare.seats.map((seat) => `<li><span class="fare-type">${esc(seat.type)}</span><span class="fare-price">${esc(seat.price)}</span></li>`).join("");
+  return `<div class="fares"><div class="fare-head">新幹線 ${esc(fare.date)}　${esc(fare.label)}</div><div class="fare-route">${esc(fare.route)}</div><ul class="fare-list">${rows}</ul></div>`;
+}
+
 function openDetail(id) {
   if (!id || !places[id]) return;
   highlight(id);
@@ -129,7 +136,8 @@ function openDetail(id) {
   const hotels = place.hotels.length
     ? place.hotels.map(hotelCard).join("")
     : '<div class="empty">尚未新增住宿資料</div>';
-  content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">交通方式</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div><a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></div><div class="section-label">住宿資訊</div>${hotels}`;
+  const fares = fareBlock(place);
+  content.innerHTML = `<div class="detail-top"><div><h1>${esc(place.name)}</h1><div class="jp">${esc(place.jp)}</div><div class="line"></div></div></div><div class="section-label">交通方式</div><div class="transport"><div class="time">${esc(place.time)}</div><div class="line-name">${esc(place.line)}</div><div class="steps">${steps}</div><div class="description">${esc(place.desc)}</div>${fares}<a class="maps" href="${esc(place.url)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a></div><div class="section-label">住宿資訊</div>${hotels}`;
   mapScreen.classList.add("hidden");
   detail.classList.add("open");
   mobileChoice.classList.remove("show");

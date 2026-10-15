@@ -295,6 +295,19 @@ a:focus-visible,
 .steps .arrow { color: var(--red2); }
 .description, .note { font-size: 12px; line-height: 1.9; color: #72736c; }
 
+.fares { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.fare-head, .fare-route { font-size: 12px; line-height: 1.7; color: #72736c; }
+.fare-list { list-style: none; margin: 4px 0 0; padding: 0; }
+.fare-list li {
+  display: grid;
+  grid-template-columns: 48px auto;
+  column-gap: 12px;
+  align-items: baseline;
+  min-height: 24px;
+}
+.fare-type { font-size: 12px; color: #7c7f78; }
+.fare-price { font-size: 14px; font-weight: 800; color: #3a3e3a; white-space: nowrap; }
+
 .maps {
   display: inline-block;
   margin-top: 12px;
