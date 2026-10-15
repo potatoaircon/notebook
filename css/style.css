@@ -644,8 +644,40 @@ a:focus-visible,
     flex: 0 0 auto;
   }
 
-  .compass { font-size: 9px; }
+  .compass { top: 8px; right: 10px; font-size: 9px; }
   .compass svg { width: 20.4px; }
+
+  .map.is-portrait {
+    --phone-map-unit: calc(400px / min(95vw, 100vw - 16px));
+  }
+  .map.is-portrait > .region:not(.phone-shape) { display: none; }
+  .map.is-portrait .region { opacity: 0.92; }
+  .map.is-portrait .region.active { opacity: 1; }
+  .map.is-portrait .route { stroke-width: 1.05; stroke-dasharray: 2.6 5.2; }
+  .map.is-portrait .route.active { stroke-width: 1.45; }
+  .map.is-portrait .pin .outer { stroke-width: 1.35; }
+  .map.is-portrait .pin[data-place="madarao"] .place-label,
+  .map.is-portrait .pin[data-place="hakuba"] .place-label {
+    font-size: calc(13.5px * var(--phone-map-unit));
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .map.is-portrait .pin[data-place="echigo"] .place-label {
+    font-size: calc(12.5px * var(--phone-map-unit));
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .map.is-portrait .map-title {
+    font-size: calc(14px * var(--phone-map-unit));
+    font-weight: 700;
+    letter-spacing: 0.15em;
+  }
+  .map.is-portrait .map-small {
+    font-size: calc(10.5px * var(--phone-map-unit));
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    fill: #89877c;
+  }
 
   .map-screen { position: relative; }
 
