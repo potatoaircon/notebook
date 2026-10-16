@@ -19,6 +19,7 @@
       name:'リゾートインマリオンシナノ', en:'Resort Inn Marion Shinano',
       walk:'徒歩約4分（250m）',
       price:'参考価格：¥26,000～¥32,13',
+      photo:'./assets/hotels/marion-shinano.jpg',
       destination:'リゾートインマリオンシナノ',
       booking:'https://www.booking.com/hotel/jp/resort-inn-marion-shinano.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
     },
@@ -36,6 +37,7 @@
       name:'ペンション神戸っ子', en:'Pension Kobekko',
       walk:'徒歩約15分（1.1km）',
       price:'参考価格：¥26,600',
+      photo:'./assets/hotels/pension-kobekko.png',
       destination:'ペンション神戸っ子',
       booking:'https://www.booking.com/hotel/jp/pension-koubekko.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
     }
@@ -122,6 +124,7 @@
   function closeCard(){
     active=null;
     card.hidden=true;
+    card.classList.remove('has-photo');
     card.style.left='';
     card.style.top='';
     markers.querySelectorAll('.tm-marker').forEach(m=>m.setAttribute('aria-pressed','false'));
@@ -129,7 +132,15 @@
   }
   document.getElementById('tm-card-close').addEventListener('click',closeCard);
   card.querySelectorAll('a').forEach(link=>link.addEventListener('click',event=>event.stopPropagation()));
-  root.addEventListener('click',e=>{if(!e.target.closest('.tm-card,.tm-marker'))closeCard();});
+  const routeToggle=document.getElementById('tm-route-toggle');
+  const routeDrop=document.getElementById('tm-route-drop');
+  const setRoute=open=>{routeDrop.hidden=!open;routeToggle.setAttribute('aria-expanded',String(open));};
+  routeToggle.addEventListener('click',event=>{event.stopPropagation();setRoute(routeDrop.hidden);});
+  routeDrop.addEventListener('click',event=>event.stopPropagation());
+  root.addEventListener('click',e=>{
+    if(!e.target.closest('.tm-card,.tm-marker'))closeCard();
+    if(!e.target.closest('.tm-place'))setRoute(false);
+  });
   function showMonth(month,updateHash=true){
     const jan=month==='jan';
     if(jan && window.NotebookMap && typeof window.NotebookMap.showMap==='function') window.NotebookMap.showMap();
