@@ -1,15 +1,46 @@
 /* Independent January page. Existing December site remains untouched. */
 (() => {
   'use strict';
-  // IMPORTANT: Placeholder hotels, coordinates, prices and distances must be replaced after verification.
-  // Coordinates are illustrative and DO NOT claim geographic accuracy.
+  // Hotels sit below the gondola (y > 460). Left-right follows east-west.
+  // Vertical spacing follows Google Maps walking distance from the station.
+  const gondola = '栂池ゴンドラリフト「イヴ」山麓駅';
   const hotels = [
-    {id:'hotel-1',label:'HOTEL 01',name:'飯店 01（待確認）',x:290,y:525,walk:null,price:null,url:null},
-    {id:'hotel-2',label:'HOTEL 02',name:'飯店 02（待確認）',x:435,y:630,walk:null,price:null,url:null},
-    {id:'hotel-3',label:'HOTEL 03',name:'飯店 03（待確認）',x:650,y:585,walk:null,price:null,url:null},
-    {id:'hotel-4',label:'HOTEL 04',name:'飯店 04（待確認）',x:565,y:755,walk:null,price:null,url:null},
-    {id:'hotel-5',label:'HOTEL 05',name:'飯店 05（待確認）',x:295,y:805,walk:null,price:null,url:null}
+    {
+      id:'hakuba-berghaus', label:'HOTEL 01', x:250, y:680,
+      name:'ホテル白馬ベルグハウス', en:'Hotel Hakuba Berghaus',
+      walk:'徒歩約8分（450m）',
+      price:'参考価格：¥62,700',
+      photo:'./assets/hotels/hakuba-berghaus.jpg',
+      destination:'ホテル白馬ベルグハウス',
+      booking:'https://www.booking.com/hotel/jp/hakuba-berghaus.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
+    },
+    {
+      id:'marion-shinano', label:'HOTEL 03', x:590, y:555,
+      name:'リゾートインマリオンシナノ', en:'Resort Inn Marion Shinano',
+      walk:'徒歩約4分（250m）',
+      price:'参考価格：¥26,000～¥32,13',
+      destination:'リゾートインマリオンシナノ',
+      booking:'https://www.booking.com/hotel/jp/resort-inn-marion-shinano.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
+    },
+    {
+      id:'sunrise-tanne', label:'HOTEL 02', x:455, y:660,
+      name:'サンライズタンネ', en:'Hakuba Tsugaike Sunrise Tanne',
+      walk:'徒歩約5分（400m）',
+      price:'参考価格：¥34,000',
+      photo:'./assets/hotels/sunrise-tanne.png',
+      destination:'サンライズタンネ',
+      booking:'https://www.booking.com/hotel/jp/sunrise-tanne.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
+    },
+    {
+      id:'pension-kobekko', label:'HOTEL 04', x:800, y:788, labelY:756,
+      name:'ペンション神戸っ子', en:'Pension Kobekko',
+      walk:'徒歩約15分（1.1km）',
+      price:'参考価格：¥26,600',
+      destination:'ペンション神戸っ子',
+      booking:'https://www.booking.com/hotel/jp/pension-koubekko.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
+    }
   ];
+  const walkUrl = (destination) => `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(gondola)}&destination=${encodeURIComponent(destination)}&travelmode=walking`;
   const ns='http://www.w3.org/2000/svg';
   const root=document.getElementById('tm-january');
   const switcher=document.getElementById('tm-switch');
@@ -24,11 +55,11 @@
   hotels.forEach((hotel,i)=>{
     // Decorative dotted walking route: illustration only; not an actual street route.
     const path=create('path',{id:`tm-route-${hotel.id}`,class:'tm-route',d:`M 505 460 Q ${hotel.x+40} ${hotel.y-70} ${hotel.x} ${hotel.y}`});routes.append(path);
-    const group=create('g',{class:'tm-marker',role:'button',tabindex:'0','aria-label':`${hotel.name}，查看簡介`,'aria-pressed':'false','data-hotel':hotel.id});
+    const group=create('g',{class:'tm-marker',role:'button',tabindex:'0','aria-label':`${hotel.name}，查看住宿資訊`,'aria-pressed':'false','data-hotel':hotel.id});
     group.append(create('circle',{class:'touch',cx:hotel.x,cy:hotel.y,r:34}));
     group.append(create('circle',{class:'pin',cx:hotel.x,cy:hotel.y,r:14}));
     group.append(create('circle',{class:'dot',cx:hotel.x,cy:hotel.y,r:5}));
-    const label=create('text',{x:hotel.x,y:hotel.y+34,'text-anchor':'middle',class:'tm-label'});label.textContent=hotel.label;group.append(label);
+    const label=create('text',{x:hotel.labelX??hotel.x,y:hotel.labelY??hotel.y+34,'text-anchor':hotel.anchor||'middle',class:'tm-label'});label.textContent=hotel.label;group.append(label);
     group.addEventListener('click',e=>{e.stopPropagation();select(hotel.id);});
     group.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(hotel.id);}});
     markers.append(group);
@@ -40,9 +71,16 @@
     const h=hotels.find(h=>h.id===id);
     if(!h){card.hidden=true;return;}
     document.getElementById('tm-card-name').textContent=h.name;
-    document.getElementById('tm-card-walk').textContent=h.walk==null?'步行時間：待確認':`至纜車站步行約 ${h.walk} 分鐘`;
-    document.getElementById('tm-card-price').textContent=h.price==null?'房價：待補充':h.price;
-    const link=document.getElementById('tm-card-link');link.hidden=!h.url;if(h.url)link.href=h.url;else link.removeAttribute('href');
+    document.getElementById('tm-card-en').textContent=h.en;
+    document.getElementById('tm-card-walk').textContent=h.walk;
+    document.getElementById('tm-card-price').textContent=h.price;
+    const photo=document.getElementById('tm-card-photo');
+    photo.hidden=!h.photo;
+    if(h.photo){photo.src=h.photo;photo.alt=h.name;}
+    else photo.removeAttribute('src');
+    card.classList.toggle('has-photo',Boolean(h.photo));
+    document.getElementById('tm-card-map').href=walkUrl(h.destination);
+    document.getElementById('tm-card-book').href=h.booking;
     card.hidden=false;
     placeCard(id);
   }
@@ -90,6 +128,7 @@
     routes.querySelectorAll('.tm-route').forEach(p=>p.classList.remove('active'));
   }
   document.getElementById('tm-card-close').addEventListener('click',closeCard);
+  card.querySelectorAll('a').forEach(link=>link.addEventListener('click',event=>event.stopPropagation()));
   root.addEventListener('click',e=>{if(!e.target.closest('.tm-card,.tm-marker'))closeCard();});
   function showMonth(month,updateHash=true){
     const jan=month==='jan';
