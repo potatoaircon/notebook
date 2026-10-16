@@ -205,21 +205,72 @@ const agodaLogo = `<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" 
     <path fill="#fff" d="M.000265402844 21.0451848C.000265402844 14.3338104 5.38727962 9.26727014 12.0522085 9.26727014 18.7622559 9.26727014 24.1034882 14.2886919 24.1034882 20.9994028L24.1034882 31.3162749C24.1034882 32.3659431 23.3736303 33.0964645 22.2775166 33.0964645 21.1362844 33.0964645 20.451545 32.3659431 20.451545 31.3162749L20.451545 28.3032891 20.2690806 28.3032891C18.8538199 30.722436 16.0232986 32.822436 11.8232986 32.822436 5.34149763 32.822436.000265402844 27.8010142.000265402844 21.0451848M20.543109 21.0451848C20.543109 16.2062275 16.8905024 12.5542844 12.0522085 12.5542844 7.21258768 12.5542844 3.56064455 16.2062275 3.56064455 21.0451848 3.56064455 25.8834787 7.21258768 29.5360853 12.0522085 29.5360853 16.8905024 29.5360853 20.543109 25.8834787 20.543109 21.0451848M33.5092986 40.4465972C32.5505308 39.9901043 32.0933744 39.168019 32.4589668 38.2099147 32.8245592 37.2047014 33.737545 36.794654 34.6956493 37.2511469 36.3398199 38.0267867 38.3933744 38.5748436 40.5842749 38.5748436 46.0177346 38.5748436 49.3040853 35.3336114 49.3040853 29.8099147L49.3040853 28.30309 49.1209573 28.30309C47.7056967 30.7229005 44.8765024 32.822237 40.6758389 32.822237 34.1933744 32.822237 28.8521422 27.8008152 28.8521422 21.0449858 28.8521422 14.3342749 34.2391564 9.26707109 40.9047488 9.26707109 47.6154597 9.26707109 52.9566919 14.2891564 52.9566919 20.9992038L52.9566919 29.5816682C52.9566919 36.9771185 48.2079716 41.9527583 40.4475924 41.9527583 38.0742275 41.9527583 35.7001991 41.4962654 33.5092986 40.4465972M49.3949858 21.0449858C49.3949858 16.2060284 45.7430427 12.5534218 40.9047488 12.5534218 36.0657915 12.5534218 32.4138483 16.2060284 32.4138483 21.0449858 32.4138483 25.8839431 36.0657915 29.5358863 40.9047488 29.5358863 45.7430427 29.5358863 49.3949858 25.8839431 49.3949858 21.0449858M57.7046161 21.0451848C57.7046161 14.3338104 63.0465118 9.26727014 69.7572227 9.26727014 76.4672701 9.26727014 81.8085024 14.3338104 81.8085024 21.0451848 81.8085024 27.7552322 76.4672701 32.822436 69.7572227 32.822436 63.0465118 32.822436 57.7046161 27.7552322 57.7046161 21.0451848M78.2481232 21.0451848C78.2481232 16.2062275 74.5955166 12.5542844 69.7572227 12.5542844 64.9176019 12.5542844 61.2656588 16.2062275 61.2656588 21.0451848 61.2656588 25.8834787 64.9176019 29.5360853 69.7572227 29.5360853 74.5955166 29.5360853 78.2481232 25.8834787 78.2481232 21.0451848M86.5574882 21.0451848C86.5574882 14.3338104 91.8522749 9.26727014 98.3805213 9.26727014 102.580521 9.26727014 105.411043 11.3672701 106.826303 13.7864171L107.008768 13.7864171 107.008768 1.78025592C107.008768.730587678 107.739289.0000663507109 108.834739.0000663507109 109.976635.0000663507109 110.660711.730587678 110.660711 1.78025592L110.660711 21.0903033C110.660711 27.8010142 105.319479 32.822436 98.6094313 32.822436 91.9445024 32.822436 86.5574882 27.7552322 86.5574882 21.0451848M107.100332 21.0451848C107.100332 16.2062275 103.447725 12.5542844 98.6094313 12.5542844 93.7698104 12.5542844 90.1178673 16.2062275 90.1178673 21.0451848 90.1178673 25.8834787 93.7698104 29.5360853 98.6094313 29.5360853 103.447725 29.5360853 107.100332 25.8834787 107.100332 21.0451848M115.40963 21.0451848C115.40963 14.3338104 120.796645 9.26727014 127.461573 9.26727014 134.172284 9.26727014 139.513517 14.2886919 139.513517 20.9994028L139.513517 31.3162749C139.513517 32.3659431 138.782995 33.0964645 137.687545 33.0964645 136.545649 33.0964645 135.86091 32.3659431 135.86091 31.3162749L135.86091 28.3032891 135.678445 28.3032891C134.263185 30.722436 131.433327 32.822436 127.233327 32.822436 120.750863 32.822436 115.40963 27.8010142 115.40963 21.0451848M135.952474 21.0451848C135.952474 16.2062275 132.300531 12.5542844 127.461573 12.5542844 122.622616 12.5542844 118.970673 16.2062275 118.970673 21.0451848 118.970673 25.8834787 122.622616 29.5360853 127.461573 29.5360853 132.300531 29.5360853 135.952474 25.8834787 135.952474 21.0451848"/>
   </g></svg>`;
 
+function stayNights(label) {
+  const match = String(label).match(/(\d{1,2})\/(\d{1,2})\s*[–-]\s*(\d{1,2})/);
+  if (!match) return null;
+  const year = 2026;
+  const month = Number(match[1]);
+  const inDay = Number(match[2]);
+  const outDay = Number(match[3]);
+  let outMonth = month;
+  let outYear = year;
+  if (outDay <= inDay) {
+    outMonth += 1;
+    if (outMonth > 12) {
+      outMonth = 1;
+      outYear += 1;
+    }
+  }
+  const day = (value) => String(value).padStart(2, "0");
+  return {
+    checkIn: `${year}-${day(month)}-${day(inDay)}`,
+    checkOut: `${outYear}-${day(outMonth)}-${day(outDay)}`
+  };
+}
+
+function agodaStayUrl(url, dateLabel) {
+  const stay = stayNights(dateLabel);
+  if (!stay) return url;
+  const link = new URL(url);
+  link.searchParams.set("checkIn", stay.checkIn);
+  link.searchParams.set("checkOut", stay.checkOut);
+  link.searchParams.set("los", "1");
+  return link.toString();
+}
+
+const bookingPages = {
+  "Share-m6UrCNx": "https://www.booking.com/hotel/jp/harvest.ja.html",
+  "Share-Is8Il6O": "https://www.booking.com/hotel/jp/ban-wei-reinsutonhoteru.ja.html"
+};
+
+function bookingStayUrl(url, dateLabel) {
+  const stay = stayNights(dateLabel);
+  const source = new URL(url);
+  const share = source.pathname.split("/").filter(Boolean).pop();
+  const link = new URL(bookingPages[share] || url);
+  if (!link.searchParams.has("lang")) link.searchParams.set("lang", "ja");
+  if (!stay) return link.toString();
+  link.searchParams.set("checkin", stay.checkIn);
+  link.searchParams.set("checkout", stay.checkOut);
+  return link.toString();
+}
+
+const bookingLogo = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 0H0v24h24ZM8.575 6.563h2.658c2.108 0 3.473 1.15 3.473 2.898 0 1.15-.575 1.82-.91 2.108l-.287.263.335.192c.815.479 1.318 1.389 1.318 2.395 0 1.988-1.51 3.257-3.857 3.257H7.449V7.713c0-.623.503-1.126 1.126-1.15zm1.7 1.868c-.479.024-.694.264-.694.79v1.893h1.676c.958 0 1.294-.743 1.294-1.365 0-.815-.503-1.318-1.318-1.318zm-.096 4.36c-.407.071-.598.31-.598.79v2.251h1.868c.934 0 1.509-.55 1.509-1.533 0-.934-.599-1.509-1.51-1.509zm7.737 2.394c.743 0 1.341.599 1.341 1.342a1.34 1.34 0 0 1-1.341 1.341 1.355 1.355 0 0 1-1.341-1.341c0-.743.598-1.342 1.34-1.342z"/></svg>`;
+
 function hotelCard(hotel) {
   const dates = [...new Set(hotel.rooms.map((room) => room.date))];
   const groups = dates.map((date) => {
     const rooms = hotel.rooms.filter((room) => room.date === date).map(roomCard).join("");
-    return `<section class="date-group"><h3>${esc(date)}</h3><div class="rooms">${rooms}</div></section>`;
+    const booking = hotel.booking
+      ? `<a class="booking" href="${esc(bookingStayUrl(hotel.booking, date))}" target="_blank" rel="noopener noreferrer" aria-label="Booking ${esc(date)}">${bookingLogo}</a>`
+      : "";
+    const agoda = hotel.agoda
+      ? `<a class="agoda" href="${esc(agodaStayUrl(hotel.agoda, date))}" target="_blank" rel="noopener noreferrer" aria-label="Agoda ${esc(date)}">${agodaLogo}</a>`
+      : "";
+    return `<section class="date-group"><div class="date-head"><h3>${esc(date)}</h3>${booking}${agoda}</div><div class="rooms">${rooms}</div></section>`;
   }).join("");
-  const booking = hotel.booking
-    ? `<a class="booking" href="${esc(hotel.booking)}" target="_blank" rel="noopener noreferrer" aria-label="Booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 0H0v24h24ZM8.575 6.563h2.658c2.108 0 3.473 1.15 3.473 2.898 0 1.15-.575 1.82-.91 2.108l-.287.263.335.192c.815.479 1.318 1.389 1.318 2.395 0 1.988-1.51 3.257-3.857 3.257H7.449V7.713c0-.623.503-1.126 1.126-1.15zm1.7 1.868c-.479.024-.694.264-.694.79v1.893h1.676c.958 0 1.294-.743 1.294-1.365 0-.815-.503-1.318-1.318-1.318zm-.096 4.36c-.407.071-.598.31-.598.79v2.251h1.868c.934 0 1.509-.55 1.509-1.533 0-.934-.599-1.509-1.51-1.509zm7.737 2.394c.743 0 1.341.599 1.341 1.342a1.34 1.34 0 0 1-1.341 1.341 1.355 1.355 0 0 1-1.341-1.341c0-.743.598-1.342 1.34-1.342z"/></svg></a>`
-    : "";
-  const agoda = hotel.agoda
-    ? `<a class="agoda" href="${esc(hotel.agoda)}" target="_blank" rel="noopener noreferrer" aria-label="Agoda">${agodaLogo}</a>`
-    : "";
-  const links = booking || agoda ? `<div class="hotel-links">${booking}${agoda}</div>` : "";
   const en = hotel.en ? `<div class="hotel-en">${esc(hotel.en)}</div>` : "";
-  return `<article class="hotel"><div class="hotel-title"><div class="hotel-name"><div class="hotel-name-row"><h2>${esc(hotel.name)}</h2>${links}</div>${en}</div></div>${groups}</article>`;
+  return `<article class="hotel"><div class="hotel-title"><div class="hotel-name"><div class="hotel-name-row"><h2>${esc(hotel.name)}</h2></div>${en}</div></div>${groups}</article>`;
 }
 
 function fareBlock(place) {
@@ -577,3 +628,5 @@ if (openedPlace) {
 } else if (history.state?.view !== "map") {
   history.replaceState({ view: "map" }, "", location.pathname + location.search + location.hash);
 }
+
+window.NotebookMap = { showMap };

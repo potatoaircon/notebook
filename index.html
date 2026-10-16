@@ -10,9 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+TC:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/tsugaike-map.css">
 </head>
 <body>
-  <div class="site">
+  <nav class="tm-switch" id="tm-switch" aria-label="選擇旅行月份"><button type="button" data-month="dec" aria-selected="true">DEC</button><button type="button" data-month="jan" aria-selected="false">JAN</button></nav>
+  <div class="site" id="tm-december">
     <main class="map-screen" id="mapScreen">
       <div class="map-wrap">
         <svg class="map" viewBox="0 0 820 750" role="group" aria-label="東京出發，白馬、斑尾、越後中里互動旅遊地圖">
@@ -104,7 +106,45 @@
       <section id="content"></section>
     </main>
   </div>
+  <section id="tm-january" class="tm-jan" aria-label="一月栂池高原住宿地圖" hidden><div class="tm-jan-inner"><header class="tm-heading"><p class="tm-date">2027.01.23</p><h1 class="tm-title">TSUGAIKE</h1><p class="tm-subtitle">STAY MAP</p><div class="tm-heading-line"></div><p class="tm-japanese">栂池高原</p></header>
+<svg class="tm-map" id="tm-map" viewBox="0 0 900 1030" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="栂池高原抽象幾何住宿分布圖；飯店位置目前為示意">
+<defs>
+<pattern id="tm-sage" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#dfe7dc"/><path d="M0 0V12" stroke="#a9b9a6" stroke-width="1.3"/></pattern>
+<pattern id="tm-coral" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#f4ded6"/><path d="M0 0V12" stroke="#d59a8e" stroke-width="1.3"/></pattern>
+</defs>
+<g class="tm-art">
+<!-- Mountain ridge: abstract layered, intentionally non-geographic -->
+<path d="M30 390 L140 310 205 322 304 196 390 250 480 125 595 217 675 178 824 310 872 403 756 422 700 470 563 430 470 495 346 447 220 483 118 424Z" fill="url(#tm-sage)" opacity=".85"/>
+<path d="M140 310 205 322 304 196 390 250 480 125 595 217 675 178 824 310" fill="none" stroke="#f7f6f2" stroke-width="11" stroke-linejoin="round" opacity=".9"/>
+<path d="M45 405 85 370 143 383 186 423 150 450 83 442Z" fill="url(#tm-coral)" opacity=".9"/>
+<path d="M742 142 805 164 832 223 799 250 738 219 715 181Z" fill="url(#tm-coral)"/>
+<path d="M30 580 85 554 134 594 118 645 51 657 17 621Z" fill="url(#tm-sage)"/>
+<path d="M752 560 822 536 868 578 855 639 798 662 746 622Z" fill="url(#tm-sage)"/>
+<path d="M60 797 144 756 234 791 261 860 217 913 115 916 48 863Z" fill="url(#tm-coral)"/>
+<path d="M710 830 768 805 824 838 834 901 786 940 722 922 689 876Z" fill="url(#tm-sage)"/>
+<path d="M346 910 389 875 439 891 460 934 424 975 373 966Z" fill="url(#tm-sage)"/>
+<path d="M538 735 576 711 619 743 610 790 566 801 532 772Z" fill="url(#tm-coral)"/>
+<!-- Simplified paths and creek -->
+<path d="M-15 730 Q155 620 330 695 T900 815" stroke="#e5e1d9" stroke-width="14" fill="none"/>
+<path d="M135 490 Q255 535 300 660 T480 1010" stroke="#e5e1d9" stroke-width="11" fill="none"/>
+<path d="M605 478 Q545 590 600 700 T650 1035" stroke="#e5e1d9" stroke-width="11" fill="none"/>
+<path d="M440 495 Q460 570 520 630 T565 845 Q570 950 655 1040" stroke="#c9e0e3" stroke-width="12" fill="none" opacity=".85"/>
+<!-- Abstract trees -->
+<g fill="#899783" opacity=".85"><path d="M190 377l10-36 10 36zM197 374h6v15h-6zM247 414l9-29 9 29zM253 412h5v11h-5zM644 329l12-40 12 40zM653 324h6v16h-6zM716 380l8-29 8 29zM721 376h5v12h-5zM216 723l9-33 9 33zM223 720h5v12h-5zM688 680l10-32 10 32zM695 677h5v14h-5z"/></g>
+<!-- Gondola station -->
+<circle cx="505" cy="460" r="12" fill="#303430" stroke="#fff" stroke-width="4"/><circle cx="505" cy="460" r="3" fill="#fff"/>
+<text x="505" y="490" text-anchor="middle" class="tm-label">栂池ゴンドラリフト</text><text x="505" y="509" text-anchor="middle" class="tm-small">GONDOLA STATION</text>
+<text x="365" y="379" text-anchor="middle" class="tm-label">TSUGAIKE</text><text x="365" y="400" text-anchor="middle" class="tm-small">SKI AREA</text>
+<!-- Compass -->
+<path d="M830 80V28m-17 17 17-17 17 17" stroke="#303430" stroke-width="2" fill="none"/><text x="830" y="102" text-anchor="middle" class="tm-north">N</text>
+<text x="76" y="675" class="tm-small">← HAKUBA</text><text x="700" y="975" class="tm-small">OTARI →</text>
+</g>
+<g id="tm-routes" pointer-events="none"></g><g id="tm-hotel-markers"></g>
+</svg>
+<div id="tm-card" class="tm-card" hidden role="status" aria-live="polite"><button id="tm-card-close" class="tm-card-close" aria-label="關閉飯店卡片" type="button">×</button><p class="tm-card-name" id="tm-card-name"></p><p class="tm-card-meta" id="tm-card-walk"></p><p class="tm-card-price" id="tm-card-price"></p><a id="tm-card-link" class="tm-card-action" href="#" target="_blank" rel="noopener noreferrer" aria-label="開啟飯店連結" hidden>→</a></div>
+<p class="tm-footnote">ILLUSTRATED MAP · HOTEL LOCATIONS & WALKING TIMES TO BE VERIFIED</p></div></section>
   <script defer src="./data/places.js"></script>
   <script defer src="./js/app.js"></script>
+  <script defer src="./js/tsugaike-map.js"></script>
 </body>
 </html>
