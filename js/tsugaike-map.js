@@ -140,6 +140,7 @@
   root.addEventListener('click',e=>{
     if(!e.target.closest('.tm-card,.tm-marker'))closeCard();
     if(!e.target.closest('.tm-place'))setRoute(false);
+    if(!e.target.closest('.jn-spot'))closeNote();
   });
   function showMonth(month,updateHash=true){
     const jan=month==='jan';
@@ -148,15 +149,94 @@
     switcher.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.month===month)));
     if(!jan)closeCard();
     if(updateHash){
-      if(jan) history.replaceState({view:'map'},'','#jan');
-      else if(location.hash==='#jan'||location.hash==='#dec') history.replaceState({view:'map'},'',location.pathname+location.search);
+      if(jan){history.replaceState({view:'map'},'','#jan');showTrip('0110');}
+      else if(location.hash==='#jan'||location.hash==='#jan-0109'||location.hash==='#jan-0110'||location.hash==='#jan-0123'||location.hash==='#dec') history.replaceState({view:'map'},'',location.pathname+location.search);
     }
     window.scrollTo({top:0,behavior:'instant'});
   }
-  function syncMonth(){if(location.hash==='#jan')showMonth('jan',false);else showMonth('dec',false);}
+  function showTrip(trip){
+    document.querySelectorAll('.jn-trip').forEach(el=>{el.hidden=el.dataset.trip!==trip;});
+    document.querySelectorAll('.jn-dates button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.trip===trip)));
+    closeNote();
+    if(trip!=='0123'){closeCard();setRoute(false);}
+  }
+  function syncMonth(){
+    const hash=location.hash;
+    if(hash==='#jan'||hash==='#jan-0109'||hash==='#jan-0110'||hash==='#jan-0123'){showMonth('jan',false);showTrip(hash==='#jan-0123'?'0123':'0110');}
+    else showMonth('dec',false);
+  }
   switcher.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>showMonth(b.dataset.month)));
+  document.querySelectorAll('.jn-dates button').forEach(btn=>btn.addEventListener('click',()=>{
+    const trip=btn.dataset.trip;
+    const hash=trip==='0123'?'#jan-0123':'#jan-0110';
+    if(location.hash!==hash) history.replaceState({view:'map'},'',hash);
+    showTrip(trip);
+  }));
+  const shiga=document.getElementById('tm-trip-0109');
+  if(shiga){
+    shiga.addEventListener('click',e=>{
+      const day=e.target.closest('.jn-day');
+      if(day){
+        if(!day.hasAttribute('aria-expanded')) return;
+        const panel=day.nextElementSibling;
+        if(!panel || !panel.classList.contains('jn-detail')) return;
+        const open=day.getAttribute('aria-expanded')==='true';
+        shiga.querySelectorAll('.jn-day[aria-expanded]').forEach(b=>{b.setAttribute('aria-expanded','false'); const next=b.nextElementSibling; if(next && next.classList.contains('jn-detail')) next.hidden=true;});
+        if(!open){day.setAttribute('aria-expanded','true');panel.hidden=false;}
+        return;
+      }
+      const stay=e.target.closest('.jn-stay');
+      if(stay && !stay.classList.contains('is-plain')){
+        const panel=stay.nextElementSibling;
+        const open=stay.getAttribute('aria-expanded')==='true';
+        stay.setAttribute('aria-expanded',String(!open));
+        panel.hidden=open;
+      }
+    });
+  }
+  const legs={shiga:'narita-shiga',madarao:'shiga-madarao',tokyo:'madarao-tokyo'};
+  const mapWrap=document.querySelector('.jn-map-wrap');
+  const note=document.getElementById('jn-note');
+  let openSpot=null;
+  function clearRoutes(){if(mapWrap)mapWrap.querySelectorAll('.jn-route').forEach(path=>path.classList.remove('active'));}
+  function closeNote(){openSpot=null;if(note)note.hidden=true;clearRoutes();if(mapWrap)mapWrap.querySelectorAll('.jn-spot').forEach(el=>el.classList.remove('is-on'));}
+  function openNote(spot,el){
+    if(!mapWrap)return;
+    if(openSpot===spot){closeNote();return;}
+    openSpot=spot;
+    mapWrap.querySelectorAll('.jn-spot').forEach(node=>node.classList.toggle('is-on',node===el));
+    clearRoutes();
+    if(note)note.hidden=true;
+    const leg=legs[spot];
+    if(leg)mapWrap.querySelector(`.jn-route[data-leg="${leg}"]`)?.classList.add('active');
+  }
+  if(mapWrap){
+    mapWrap.addEventListener('click',e=>{
+      const spot=e.target.closest('.jn-spot');
+      if(spot)openNote(spot.dataset.spot,spot);
+      else closeNote();
+    });
+    mapWrap.addEventListener('keydown',e=>{
+      if(e.key!=='Enter'&&e.key!==' ')return;
+      const spot=e.target.closest('.jn-spot');
+      if(!spot)return;
+      e.preventDefault();
+      openNote(spot.dataset.spot,spot);
+    });
+  }
   // Month switching uses replaceState so it does not add a history entry or disturb December detail pushState.
-  // #jan opens January. Every other hash, including December place hashes, shows the existing December site.
+  // #jan, #jan-0109 and #jan-0110 open 01.01–01.10. #jan-0123 opens the Tsugaike map. Every other hash shows December.
+  function formatDateRange(start, end){
+    const part=value=>{const [y,m,d]=value.split('-'); return {y,m,d};};
+    const a=part(start), b=part(end);
+    const ymd=v=>`${v.y}.${v.m}.${v.d}`;
+    const md=v=>`${v.m}.${v.d}`;
+    return a.y===b.y ? `${ymd(a)} — ${md(b)}` : `${ymd(a)} — ${ymd(b)}`;
+  }
+  document.querySelectorAll('[data-range]').forEach(el=>{
+    const [start,end]=el.dataset.range.split(',');
+    el.textContent=formatDateRange(start.trim(), end.trim());
+  });
   syncMonth();
   window.addEventListener('hashchange',syncMonth);
   window.addEventListener('popstate',syncMonth);
