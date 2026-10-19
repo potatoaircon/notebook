@@ -15,31 +15,14 @@
       booking:'https://www.booking.com/hotel/jp/hakuba-berghaus.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
     },
     {
-      id:'marion-shinano', label:'HOTEL 03', x:590, y:555,
+      id:'marion-shinano', label:'HOTEL 02', x:590, y:555,
       name:'リゾートインマリオンシナノ', en:'Resort Inn Marion Shinano',
       walk:'徒歩約4分（250m）',
-      price:'参考価格：¥26,000～¥32,13',
+      price:'¥29,225',
+      booked:true,
       photo:'./assets/hotels/marion-shinano.jpg',
       destination:'リゾートインマリオンシナノ',
       booking:'https://www.booking.com/hotel/jp/resort-inn-marion-shinano.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
-    },
-    {
-      id:'sunrise-tanne', label:'HOTEL 02', x:455, y:660,
-      name:'サンライズタンネ', en:'Hakuba Tsugaike Sunrise Tanne',
-      walk:'徒歩約5分（400m）',
-      price:'参考価格：¥34,000',
-      photo:'./assets/hotels/sunrise-tanne.png',
-      destination:'サンライズタンネ',
-      booking:'https://www.booking.com/hotel/jp/sunrise-tanne.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
-    },
-    {
-      id:'pension-kobekko', label:'HOTEL 04', x:800, y:788, labelY:756,
-      name:'ペンション神戸っ子', en:'Pension Kobekko',
-      walk:'徒歩約15分（1.1km）',
-      price:'参考価格：¥26,600',
-      photo:'./assets/hotels/pension-kobekko.png',
-      destination:'ペンション神戸っ子',
-      booking:'https://www.booking.com/hotel/jp/pension-koubekko.ja.html?lang=ja&checkin=2027-01-23&checkout=2027-01-24&group_adults=2&no_rooms=1&group_children=0'
     }
   ];
   const walkUrl = (destination) => `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(gondola)}&destination=${encodeURIComponent(destination)}&travelmode=walking`;
@@ -75,7 +58,15 @@
     document.getElementById('tm-card-name').textContent=h.name;
     document.getElementById('tm-card-en').textContent=h.en;
     document.getElementById('tm-card-walk').textContent=h.walk;
-    document.getElementById('tm-card-price').textContent=h.price;
+    const price=document.getElementById('tm-card-price');
+    price.replaceChildren();
+    if(h.booked){
+      const status=document.createElement('span');
+      status.className='tm-card-status';
+      status.textContent='予約済み';
+      price.append(status);
+    }
+    price.append(h.price);
     const photo=document.getElementById('tm-card-photo');
     photo.hidden=!h.photo;
     if(h.photo){photo.src=h.photo;photo.alt=h.name;}
@@ -187,7 +178,8 @@
       }
       const stay=e.target.closest('.jn-stay');
       if(stay && !stay.classList.contains('is-plain')){
-        const panel=stay.nextElementSibling;
+        const panel=stay.parentElement.querySelector('.jn-detail');
+        if(!panel) return;
         const open=stay.getAttribute('aria-expanded')==='true';
         stay.setAttribute('aria-expanded',String(!open));
         panel.hidden=open;
