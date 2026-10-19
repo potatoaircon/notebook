@@ -11,8 +11,27 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Noto+Sans+TC:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/tsugaike-map.css">
+  <link rel="stylesheet" href="./css/unlock.css">
+  <script>try{if(sessionStorage.getItem('notebookUnlocked')==='true')document.documentElement.classList.add('nb-open')}catch(e){}</script>
 </head>
 <body>
+  <div id="nb-lock" class="nb-lock">
+    <h1 class="nb-title">NOTEBOOK</h1>
+    <div class="nb-stage" id="nb-stage">
+      <button type="button" class="nb-animal" data-id="rabbit" aria-label="動物"><span class="nb-animal-body"><svg viewBox="0 0 140 160" aria-hidden="true"><defs><pattern id="nb-h-rabbit" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="10" height="10" fill="#e8e2d6"/><path d="M0 0V10" stroke="#c8bfb0" stroke-width="1.6"/></pattern><clipPath id="nb-c-rabbit"><path d="M68 54L60 24C56 12 46 14 50 28L58 54C34 62 18 88 24 116C30 146 56 158 80 152C108 158 130 134 124 104C120 78 102 58 82 54L90 26C94 12 106 14 100 30L92 54Z"/></clipPath></defs><g clip-path="url(#nb-c-rabbit)"><rect width="140" height="160" fill="url(#nb-h-rabbit)"/></g><circle cx="58" cy="98" r="2.2" fill="#303430"/><circle cx="84" cy="98" r="2.2" fill="#303430"/><circle cx="71" cy="110" r="1.45" fill="#303430"/></svg></span></button>
+      <button type="button" class="nb-animal" data-id="bear" aria-label="動物"><span class="nb-animal-body"><svg viewBox="0 0 140 160" aria-hidden="true"><defs><pattern id="nb-h-bear" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="10" height="10" fill="#f4ded6"/><path d="M0 0V10" stroke="#d59a8e" stroke-width="1.6"/></pattern><clipPath id="nb-c-bear"><path d="M76 70C46 64 22 88 28 116C34 146 60 158 86 150C116 158 136 132 128 102C122 76 102 62 84 70C94 52 112 40 118 52C122 60 106 70 94 66C82 48 62 40 54 54C48 64 64 74 76 70Z"/></clipPath></defs><g clip-path="url(#nb-c-bear)"><rect width="140" height="160" fill="url(#nb-h-bear)"/></g><circle cx="58" cy="104" r="2.2" fill="#303430"/><circle cx="86" cy="104" r="2.2" fill="#303430"/><circle cx="72" cy="116" r="1.45" fill="#303430"/></svg></span></button>
+      <button type="button" class="nb-animal" data-id="dog" aria-label="動物"><span class="nb-animal-body"><svg viewBox="0 0 140 160" aria-hidden="true"><defs><pattern id="nb-h-dog" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="10" height="10" fill="#dfe7dc"/><path d="M0 0V10" stroke="#a9b9a6" stroke-width="1.6"/></pattern><clipPath id="nb-c-dog"><path d="M76 70C92 62 108 70 118 88C128 104 136 116 128 132C120 144 106 136 102 122C108 142 98 156 80 154C62 156 50 140 52 124C46 140 30 142 24 126C18 110 34 96 48 102C42 84 50 72 66 70Z"/></clipPath></defs><g clip-path="url(#nb-c-dog)"><rect width="140" height="160" fill="url(#nb-h-dog)"/></g><circle cx="62" cy="100" r="2.2" fill="#303430"/><circle cx="90" cy="98" r="2.2" fill="#303430"/><circle cx="76" cy="112" r="1.45" fill="#303430"/></svg></span></button>
+      <button type="button" class="nb-animal" data-id="cat" aria-label="動物"><span class="nb-animal-body"><svg viewBox="0 0 140 160" aria-hidden="true"><defs><pattern id="nb-h-cat" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="10" height="10" fill="#d7e4ec"/><path d="M0 0V10" stroke="#a8c0cc" stroke-width="1.6"/></pattern><clipPath id="nb-c-cat"><path d="M74 66C48 60 26 84 30 112C36 144 58 158 84 152C114 158 134 134 126 106C120 80 102 62 84 66C94 46 112 26 104 22C94 18 84 42 78 58C72 38 54 20 46 30C40 38 56 54 68 66Z"/></clipPath></defs><g clip-path="url(#nb-c-cat)"><rect width="140" height="160" fill="url(#nb-h-cat)"/></g><circle cx="60" cy="104" r="2.2" fill="#303430"/><circle cx="86" cy="102" r="2.2" fill="#303430"/><circle cx="74" cy="116" r="1.45" fill="#303430"/></svg></span></button>
+    </div>
+    <div class="nb-dock" id="nb-dock">
+      <div class="nb-hold">
+        <p class="nb-hint" id="nb-hint">TAP TO PICK UP</p>
+        <span class="nb-anchor" id="nb-anchor"></span>
+      </div>
+      <div class="nb-dots" id="nb-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
+    <button type="button" class="nb-hammer" id="nb-hammer" aria-label="錘子"><span class="nb-hammer-swing"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="29" y="22" width="6" height="34" rx="3" fill="#cfc6b8"/><rect x="8" y="8" width="48" height="16" rx="4" fill="#303430"/></svg></span></button>
+  </div>
   <nav class="tm-switch" id="tm-switch" aria-label="選擇旅行月份"><button type="button" data-month="dec" aria-selected="true">DEC</button><button type="button" data-month="jan" aria-selected="false">JAN</button></nav>
   <div class="site" id="tm-december">
     <main class="map-screen" id="mapScreen">
@@ -146,5 +165,6 @@
   <script defer src="./data/places.js"></script>
   <script defer src="./js/app.js"></script>
   <script defer src="./js/tsugaike-map.js"></script>
+  <script defer src="./js/unlock.js"></script>
 </body>
 </html>
