@@ -19,13 +19,15 @@
   const compact = window.matchMedia('(max-width: 767px)');
   const mapSearch = (shop) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${shop.name} ${shop.address}`)}`;
   const categoryLabels = { pancakes: 'PANCAKES', yakiniku: 'YAKINIKU', gyutan: 'GYUTAN', izakaya: 'IZAKAYA', cakes: 'CAKES' };
-  const areaLabels = { omotesando:'表参道', marunouchi:'東京', shibuya:'渋谷', shinjuku:'新宿', ginza:'銀座', ueno:'上野', kinshicho:'錦糸町', ebisu:'恵比寿', asakusa:'浅草', roppongi:'六本木', nogizaka:'乃木坂', ikejiri:'池尻大橋', yoyogi:'代々木公園', higashinihonbashi:'東日本橋', okachimachi:'御徒町', daikanyama:'代官山', nakano:'中野', machida:'町田', nakameguro:'中目黒', kitasando:'北参道', kokubunji:'国分寺', other:'東京' };
-  const areaCenters = { omotesando:[325,390], marunouchi:[589,416], shibuya:[170,387], shinjuku:[185,167], ginza:[475,482], ueno:[721,153], kinshicho:[806,338], ebisu:[180,530], asakusa:[748,198], roppongi:[300,512], nogizaka:[262,322], ikejiri:[36,508], yoyogi:[100,248], higashinihonbashi:[690,250], okachimachi:[650,200], daikanyama:[236,460], nakano:[36,118], machida:[36,430], nakameguro:[15,470], kitasando:[348,246], kokubunji:[52,42], other:[450,435] };
+  const areaLabels = { omotesando:'表参道', marunouchi:'東京', shibuya:'渋谷', shinjuku:'新宿', ginza:'銀座', ueno:'上野', kinshicho:'錦糸町', ebisu:'恵比寿', asakusa:'浅草', roppongi:'六本木', nogizaka:'乃木坂', ikejiri:'池尻大橋', yoyogi:'代々木公園', higashinihonbashi:'東日本橋', okachimachi:'御徒町', daikanyama:'代官山', nakano:'中野', machida:'町田', nakameguro:'中目黒', kitasando:'北参道', kokubunji:'国分寺', oshiage:'押上', other:'東京' };
+  const areaCenters = { omotesando:[325,390], marunouchi:[589,416], shibuya:[170,387], shinjuku:[185,167], ginza:[475,482], ueno:[721,153], kinshicho:[806,338], ebisu:[180,530], asakusa:[748,198], roppongi:[300,512], nogizaka:[262,322], ikejiri:[36,508], yoyogi:[100,248], higashinihonbashi:[690,250], okachimachi:[650,200], daikanyama:[236,460], nakano:[36,118], machida:[36,430], nakameguro:[15,470], kitasando:[348,246], kokubunji:[52,42], oshiage:[812,108], other:[450,435] };
+  const listAreaOrder = ['kinshicho', 'oshiage', 'asakusa', 'higashinihonbashi', 'marunouchi', 'ginza', 'kitasando', 'omotesando', 'nogizaka', 'roppongi', 'daikanyama', 'shinjuku', 'yoyogi', 'shibuya', 'ebisu', 'kokubunji', 'nakano', 'nakameguro', 'ikejiri', 'machida'];
   const nodes = new Map();
   let currentCategory = 'all';
   let currentArea = null;
   let openedId = null;
   let pinned = false;
+  let hotIds = [];
   let timeout;
 
   const el = (name, attrs = {}) => {
@@ -51,13 +53,14 @@
       'aria-label': `${shop.name} · ${areaLabels[shop.area] || '東京'}`,
       transform: `translate(${x} ${y})` });
     const labelX = 20;
+    const labelY = Number(shop.labelDy) || 0;
     const lines = Array.isArray(shop.lines) && shop.lines.length ? shop.lines : [shop.name];
     const shown = lines.slice(0, 2).map((line, index) => index === 0 && line.length > 21 ? line.slice(0, 20) + '…' : line);
     if (shown.length === 1) {
-      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:0, 'text-anchor':'start', 'dominant-baseline':'central' });
+      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:labelY, 'text-anchor':'start', 'dominant-baseline':'central' });
     } else {
-      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:-6.5, 'text-anchor':'start', 'dominant-baseline':'central' });
-      addText(g, shown[1], { class:'fd-marker-sub', x:labelX, y:8, 'text-anchor':'start', 'dominant-baseline':'central' });
+      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:labelY - 6.5, 'text-anchor':'start', 'dominant-baseline':'central' });
+      addText(g, shown[1], { class:'fd-marker-sub', x:labelX, y:labelY + 8, 'text-anchor':'start', 'dominant-baseline':'central' });
     }
     if (shop.badge) g.append(angryMark());
     else {
@@ -193,6 +196,12 @@
       line.textContent = hours;
       card.append(line);
     }
+    if (shop.branches?.length) {
+      const branches = document.createElement('p');
+      branches.className = 'fd-card-branches';
+      branches.textContent = shop.branches.join(' ');
+      card.append(branches);
+    }
     const link = document.createElement('a');
     link.className = 'maps';
     link.href = shop.mapsUrl || mapSearch(shop);
@@ -236,10 +245,15 @@
     card.style.left = `${chosen.x - host.left}px`;
     card.style.top = `${chosen.y - host.top}px`;
   }
+  function setHot(ids) {
+    hotIds = ids;
+    for (const [id, node] of nodes) node.classList.toggle('is-hot', ids.includes(id));
+  }
   function openCard(id, sticky = false) {
     const shop = places.find(p => p.id === id);
     if (!shop || !visiblePlaces().some(p => p.id === id) || clusterMode()) return;
     clearTimeout(timeout);
+    setHot([]);
     openedId = id;
     pinned = sticky;
     markerLayer.querySelectorAll('.fd-marker').forEach(item => item.classList.toggle('is-on', item.dataset.id === id));
@@ -261,45 +275,89 @@
     clearTimeout(timeout);
     timeout = setTimeout(() => { if (!pinned) closeCard(); }, 320);
   }
+  function listEntries() {
+    const shops = visiblePlaces();
+    const seen = new Set();
+    const entries = [];
+    for (const shop of shops) {
+      const key = shop.listGroup || shop.id;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const members = shops.filter(item => (item.listGroup || item.id) === key);
+      const label = members[0].listName || members[0].name;
+      const areas = members.length === 1 && members[0].branches?.length
+        ? members[0].branches
+        : members.map(item => areaLabels[item.area] || '東京').filter((item, index, all) => all.indexOf(item) === index);
+      entries.push({
+        key,
+        label,
+        category: members[0].category,
+        sortArea: members[0].area,
+        sortY: Number(members[0].y) || 0,
+        area: areas.join('、'),
+        image: members.find(item => item.image)?.image || null,
+        href: members.length > 1
+          ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(label)}`
+          : (members[0].mapsUrl || mapSearch(members[0])),
+        ids: members.map(item => item.id)
+      });
+    }
+    const rank = (area) => {
+      const index = listAreaOrder.indexOf(area);
+      return index < 0 ? listAreaOrder.length : index;
+    };
+    entries.sort((a, b) => rank(a.sortArea) - rank(b.sortArea) || a.sortY - b.sortY);
+    return entries;
+  }
   function renderList() {
     list.replaceChildren();
-    const shops = visiblePlaces();
-    count.textContent = `${String(shops.length).padStart(2,'0')} ${shops.length === 1 ? 'PLACE' : 'PLACES'}`;
+    const entries = listEntries();
+    count.textContent = `${String(entries.length).padStart(2,'0')} ${entries.length === 1 ? 'PLACE' : 'PLACES'}`;
     areaReset.hidden = !currentArea;
-    if (shops.length === 0) {
+    if (entries.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'fd-empty';
       empty.textContent = 'NO PLACES YET';
       list.append(empty);
       return;
     }
-    for (const shop of shops) {
+    for (const entry of entries) {
       const row = document.createElement('div');
       row.className = 'fd-row';
-      const photo = document.createElement('img');
+      const photo = document.createElement(entry.image ? 'img' : 'span');
       photo.className = 'fd-row-photo';
-      photo.src = shop.image;
-      photo.alt = '';
+      if (entry.image) {
+        photo.src = entry.image;
+        photo.alt = '';
+      }
+      const lit = entry.ids.some(id => hotIds.includes(id) || openedId === id);
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = `fd-place-button${openedId === shop.id ? ' is-on' : ''}`;
+      button.className = `fd-place-button${lit ? ' is-on' : ''}`;
       const title = document.createElement('strong');
-      title.textContent = shop.name;
+      title.textContent = entry.label;
       const sub = document.createElement('span');
-      sub.textContent = categoryLabels[shop.category] || '';
+      sub.textContent = categoryLabels[entry.category] || '';
       button.append(title,sub);
       button.addEventListener('click',() => {
-        if (clusterMode()) { currentArea = shop.area; updateView(); }
-        openCard(shop.id,true);
+        if (openedId) {
+          clearTimeout(timeout);
+          openedId = null;
+          pinned = false;
+          card.hidden = true;
+          markerLayer.querySelectorAll('.fd-marker').forEach(item => item.classList.remove('is-on'));
+        }
+        setHot(entry.ids);
+        renderList();
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         wrap.scrollIntoView({ block:'center', behavior:reduce ? 'auto' : 'smooth' });
       });
       const area = document.createElement('span');
       area.className = 'fd-list-area';
-      area.textContent = areaLabels[shop.area] || '東京';
+      area.textContent = entry.area;
       const link = document.createElement('a');
       link.className = 'maps';
-      link.href = shop.mapsUrl || mapSearch(shop);
+      link.href = entry.href;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.textContent = 'Google Maps ↗';
@@ -308,6 +366,8 @@
     }
   }
   function updateView() {
+    hotIds = [];
+    for (const node of nodes.values()) node.classList.remove('is-hot');
     closeCard();
     const visible = new Set(visiblePlaces().map(p => p.id));
     for (const [id,node] of nodes) {
@@ -334,6 +394,7 @@
   root.addEventListener('click', event => {
     if (event.target.closest('.fd-marker,.fd-card,.fd-area,.fd-place-button,.fd-filter,.fd-area-reset')) return;
     if (openedId) closeCard();
+    if (hotIds.length) { setHot([]); renderList(); }
   });
   window.addEventListener('resize', () => { if (openedId) positionCard(openedId); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && !card.hidden) closeCard(); });

@@ -6,7 +6,7 @@
  * Category keys: pancakes, yakiniku, gyutan, izakaya, cakes.
  * Area keys: omotesando, marunouchi, shibuya, shinjuku, ginza,
  *            ueno, kinshicho, ebisu, asakusa, roppongi, nogizaka, ikejiri, yoyogi,
- *            higashinihonbashi, okachimachi, daikanyama, nakano, machida, nakameguro, kitasando, kokubunji, other.
+ *            higashinihonbashi, okachimachi, daikanyama, nakano, machida, nakameguro, kitasando, kokubunji, oshiage, other.
  */
 window.TOKYO_FOOD_PLACES = [
   {
@@ -36,6 +36,8 @@ window.TOKYO_FOOD_PLACES = [
   },
   {
     id: 'tsubaki-salon',
+    listGroup: 'tsubaki',
+    listName: '椿サロン',
     name: '椿サロン 銀座',
     nameJa: 'つばきさろん',
     category: 'pancakes',
@@ -49,6 +51,8 @@ window.TOKYO_FOOD_PLACES = [
   },
   {
     id: 'tsubaki-salon-shibuya',
+    listGroup: 'tsubaki',
+    listName: '椿サロン',
     name: '椿サロン 渋谷',
     nameJa: 'つばきさろん',
     category: 'pancakes',
@@ -101,7 +105,7 @@ window.TOKYO_FOOD_PLACES = [
   },
   {
     id: 'oslo-coffee-kinshicho',
-    name: 'OSLO COFFEE 錦糸町テルミナ店',
+    name: 'OSLO COFFEE',
     nameJa: 'おすろこーひー',
     category: 'pancakes',
     area: 'kinshicho',
@@ -109,6 +113,8 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都墨田区江東橋3-14-5 錦糸町ステーションビル1F',
     hours: ['08:00 — 21:00'],
     image: './assets/tokyo/oslo-coffee-kinshicho.png',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=OSLO+COFFEE',
+    branches: ['錦糸町', '新宿小田急エース', '新宿サブナード', '四谷三丁目', '麻布十番', '池袋'],
     x: 760, y: 392,
     lines: ['OSLO COFFEE']
   },
@@ -137,6 +143,7 @@ window.TOKYO_FOOD_PLACES = [
     image: './assets/tokyo/west-aoyama-garden.png',
     badge: './assets/tokyo/angry.png',
     x: 262, y: 322,
+    labelDy: -18,
     lines: ['ウエスト']
   },
   {
@@ -247,6 +254,8 @@ window.TOKYO_FOOD_PLACES = [
   },
   {
     id: 'js-pancake-nakano',
+    listGroup: 'js-pancake',
+    listName: 'J.S. PANCAKE CAFE',
     name: 'J.S. PANCAKE CAFE 中野',
     nameJa: 'ジェーエスパーケーキカフェ',
     category: 'pancakes',
@@ -260,6 +269,8 @@ window.TOKYO_FOOD_PLACES = [
   },
   {
     id: 'js-pancake-machida',
+    listGroup: 'js-pancake',
+    listName: 'J.S. PANCAKE CAFE',
     name: 'J.S. PANCAKE CAFE 町田',
     nameJa: 'ジェーエスパーケーキカフェ',
     category: 'pancakes',
@@ -296,5 +307,79 @@ window.TOKYO_FOOD_PLACES = [
     image: './assets/tokyo/brasserie-salut.jpg',
     x: 348, y: 246,
     lines: ['Brasserie', 'Salut']
+  },
+  {
+    id: 'bills-ginza',
+    name: 'bills',
+    nameJa: 'ビルズ',
+    category: 'pancakes',
+    area: 'ginza',
+    station: '銀座駅 · Okura House 12F',
+    address: '東京都中央区銀座2-6-12 Okura House 12F',
+    hours: ['08:30 — 23:00'],
+    image: './assets/tokyo/bills.jpg',
+    badge: './assets/tokyo/angry.png',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=bills',
+    branches: ['銀座', '表参道', 'お台場', '二子玉川'],
+    x: 505, y: 468,
+    lines: ['bills']
+  },
+  {
+    id: 'shiawase-omotesando',
+    name: '幸せのパンケーキ',
+    nameJa: 'シアワセノパンケーキ',
+    category: 'pancakes',
+    area: 'omotesando',
+    station: '表参道駅 · 清原ビル B1F',
+    address: '東京都渋谷区神宮前4-9-3 清原ビルB1F',
+    hours: ['平日 10:00 — 19:00', '土日祝 09:00 — 19:30'],
+    image: './assets/tokyo/shiawase-pancake.jpg',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('幸せのパンケーキ'),
+    branches: ['表参道', '渋谷', '銀座', '池袋', '吉祥寺'],
+    x: 378, y: 300,
+    lines: ['幸せの', 'パンケーキ']
+  },
+  {
+    id: 'flippers-shibuya',
+    name: "FLIPPER'S",
+    nameJa: 'フリッパーズ',
+    category: 'pancakes',
+    area: 'shibuya',
+    station: '渋谷駅 · 神南プラザビル 1F',
+    address: '東京都渋谷区神南1-15-5 神南プラザビル1F',
+    hours: ['09:00 — 19:00'],
+    image: './assets/tokyo/flippers.webp',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=FLIPPER%27S',
+    branches: ['渋谷', '新宿', '自由が丘', '下北沢', '吉祥寺'],
+    x: 160, y: 358,
+    lines: ["FLIPPER'S"]
+  },
+  {
+    id: 'cafe-knit-kinshicho',
+    name: 'カフェ・喫茶 ニット',
+    nameJa: 'キッサニット',
+    category: 'pancakes',
+    area: 'kinshicho',
+    station: '錦糸町駅',
+    address: '東京都墨田区江東橋4-26-12 小沢ビル1F',
+    hours: ['11:00 — 20:00'],
+    image: './assets/tokyo/cafe-knit.webp',
+    mapsUrl: 'https://www.google.com/maps/place/カフェ・喫茶+ニット/@35.6954645,139.8164646,17z',
+    x: 800, y: 420,
+    lines: ['喫茶ニット']
+  },
+  {
+    id: 'morning-folks-oshiage',
+    name: 'THE MORNING FOLKS OSHIAGE',
+    nameJa: 'ザモーニングフォークス',
+    category: 'pancakes',
+    area: 'oshiage',
+    station: '押上駅 · ことまちベース 1F',
+    address: '東京都墨田区業平1-10-6 ことまちベース西棟1F',
+    hours: ['月・水・木・金 07:00 — 15:00', '土日祝 08:00 — 17:00', '火曜 定休'],
+    image: './assets/tokyo/morning-folks.jpg',
+    mapsUrl: 'https://www.google.com/maps/place/THE+MORNING+FOLKS+OSHIAGE+Coffee+%26+American+Breakfast/@35.7087522,139.8107438,17z',
+    x: 812, y: 108,
+    lines: ['Morning', 'Folks']
   }
 ];

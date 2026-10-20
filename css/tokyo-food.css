@@ -35,15 +35,15 @@
 .fd-marker .fd-hit{fill:transparent}
 .fd-marker .fd-ring{fill:#fffdfa;stroke:#343934;stroke-width:1.4}
 .fd-marker .fd-dot{fill:#c8796c}
-.fd-marker.is-on .fd-ring,.fd-marker:hover .fd-ring{stroke:#bc574a;stroke-width:2.2}
+.fd-marker.is-on .fd-ring,.fd-marker.is-hot .fd-ring,.fd-marker:hover .fd-ring{stroke:#bc574a;stroke-width:2.2}
 .fd-marker .fd-angry-face{fill:#fffdfa;stroke:#343934;stroke-width:1.4}
 .fd-marker .fd-angry-line{fill:none;stroke:#343934;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .fd-marker .fd-angry-eye{fill:#343934}
-.fd-marker.is-on .fd-angry-face,.fd-marker:hover .fd-angry-face,.fd-marker.is-on .fd-angry-line,.fd-marker:hover .fd-angry-line{stroke:#bc574a;stroke-width:2.2}
-.fd-marker.is-on .fd-angry-eye,.fd-marker:hover .fd-angry-eye{fill:#bc574a}
-.fd-marker.is-on .fd-marker-name{fill:#bc574a}
+.fd-marker.is-on .fd-angry-face,.fd-marker.is-hot .fd-angry-face,.fd-marker:hover .fd-angry-face,.fd-marker.is-on .fd-angry-line,.fd-marker.is-hot .fd-angry-line,.fd-marker:hover .fd-angry-line{stroke:#bc574a;stroke-width:2.2}
+.fd-marker.is-on .fd-angry-eye,.fd-marker.is-hot .fd-angry-eye,.fd-marker:hover .fd-angry-eye{fill:#bc574a}
+.fd-marker.is-on .fd-marker-name,.fd-marker.is-hot .fd-marker-name{fill:#bc574a}
 .fd-marker.is-quiet .fd-marker-name,.fd-marker.is-quiet .fd-marker-sub{opacity:0;pointer-events:none}
-.fd-marker.is-quiet:hover .fd-marker-name,.fd-marker.is-quiet:hover .fd-marker-sub,.fd-marker.is-quiet.is-on .fd-marker-name,.fd-marker.is-quiet.is-on .fd-marker-sub,.fd-marker.is-quiet.is-revealed .fd-marker-name,.fd-marker.is-quiet.is-revealed .fd-marker-sub{opacity:1;pointer-events:auto}
+.fd-marker.is-quiet:hover .fd-marker-name,.fd-marker.is-quiet:hover .fd-marker-sub,.fd-marker.is-quiet.is-on .fd-marker-name,.fd-marker.is-quiet.is-on .fd-marker-sub,.fd-marker.is-quiet.is-hot .fd-marker-name,.fd-marker.is-quiet.is-hot .fd-marker-sub,.fd-marker.is-quiet.is-revealed .fd-marker-name,.fd-marker.is-quiet.is-revealed .fd-marker-sub{opacity:1;pointer-events:auto}
 .fd-map .fd-marker-name{font-size:13px;letter-spacing:.03em}
 .fd-map .fd-marker-sub{font-size:10px;font-weight:400;fill:#7d827a}
 .fd-card{position:absolute;z-index:9;box-sizing:border-box;width:300px;max-width:min(305px,calc(100vw - 32px));padding:16px;background:#fffefa;border:1px solid #e6e2d9;box-shadow:0 10px 26px #24282117;border-radius:3px}
@@ -56,6 +56,7 @@
 .fd-card-station{margin:12px 0 0;font-size:13px;line-height:1.45;color:#60665f;overflow-wrap:break-word}
 .fd-card-hours{margin:4px 0 0;font-size:13px;line-height:1.45;color:#60665f;overflow-wrap:break-word}
 .fd-card-station + .fd-card-hours{margin-top:8px}
+.fd-card-branches{margin:10px 0 0;font-size:12px;line-height:1.55;color:#7e857c;overflow-wrap:break-word}
 .fd-card .maps{display:inline-block;margin-top:12px;font-size:13px}
 .fd-card-close{position:absolute;top:7px;right:9px;border:0;background:transparent;padding:5px;color:#747b73;cursor:pointer;font-size:17px}
 .fd-list-section{margin-top:15px}
