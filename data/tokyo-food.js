@@ -293,7 +293,7 @@ window.TOKYO_FOOD_PLACES = [
     station: '北参道駅 · SuSLOB 1F',
     address: '東京都渋谷区千駄ケ谷4-5-11 SuSLOB北参道 1F',
     hours: ['09:00 — 16:00'],
-    image: null,
+    image: './assets/tokyo/brasserie-salut.jpg',
     x: 348, y: 246,
     lines: ['Brasserie', 'Salut']
   }

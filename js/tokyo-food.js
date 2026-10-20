@@ -276,6 +276,10 @@
     for (const shop of shops) {
       const row = document.createElement('div');
       row.className = 'fd-row';
+      const photo = document.createElement('img');
+      photo.className = 'fd-row-photo';
+      photo.src = shop.image;
+      photo.alt = '';
       const button = document.createElement('button');
       button.type = 'button';
       button.className = `fd-place-button${openedId === shop.id ? ' is-on' : ''}`;
@@ -299,7 +303,7 @@
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.textContent = 'Google Maps ↗';
-      row.append(button,area,link);
+      row.append(photo,button,area,link);
       list.append(row);
     }
   }
