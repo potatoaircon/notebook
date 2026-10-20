@@ -13,8 +13,8 @@
 .tm-card.has-photo{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:end}.tm-card.has-photo .tm-card-row,.tm-card.has-photo .tm-card-copy,.tm-card.has-photo .tm-card-links{display:contents}.tm-card.has-photo .tm-card-name{grid-column:1 / -1;grid-row:1}.tm-card.has-photo .hotel-en{grid-column:1;grid-row:2}.tm-card.has-photo #tm-card-walk{grid-column:1;grid-row:3}.tm-card.has-photo #tm-card-price{grid-column:1;grid-row:4}.tm-card.has-photo .maps{grid-column:1;grid-row:5;justify-self:start;margin-top:12px}.tm-card.has-photo .tm-card-side{grid-column:2;grid-row:2 / 6}
 @media(prefers-reduced-motion:reduce){.tm-route.active,.jn-route.active{animation:none}*{scroll-behavior:auto!important}}
 .jn-trip[hidden]{display:none!important}
-.jn-dates{display:flex;gap:26px;margin:-28px 0 30px clamp(8px,4vw,65px)}
-.jn-dates button{background:none;border:0;border-bottom:1px solid transparent;padding:0 0 5px;font:inherit;font-size:13px;letter-spacing:.06em;color:#8d918a;cursor:pointer}
+.jn-dates{position:fixed;z-index:900;top:calc(max(20px,env(safe-area-inset-top)) + 62px);right:22px;display:flex;flex-direction:column;align-items:flex-end;gap:12px;margin:0}
+.jn-dates button{background:none;border:0;border-bottom:1px solid transparent;padding:0 0 4px;font:inherit;font-size:13px;letter-spacing:.06em;color:#8d918a;cursor:pointer;text-align:right;white-space:nowrap}
 .jn-dates button[aria-selected=true]{color:var(--tm-ink);border-bottom-color:var(--tm-ink)}
 .jn-dates button:focus-visible{outline:1px solid var(--tm-ink);outline-offset:4px}
 .jn-heading{margin:0 0 0 clamp(8px,4vw,65px)}
@@ -66,8 +66,9 @@
 .jn-leg .maps{margin-top:8px}
 .jn-side section+section{margin-top:42px}
 @media(max-width:767px){
-.jn-dates,.jn-heading,.jn-map-wrap,.jn-columns{margin-left:22px;margin-right:22px}
-.jn-dates{gap:16px;margin-top:0;margin-bottom:22px}
+.jn-heading,.jn-map-wrap,.jn-columns{margin-left:22px;margin-right:22px}
+.jn-dates{top:calc(max(8px,env(safe-area-inset-top)) + 42px);right:8px;gap:10px;margin:0}
+.jn-dates button{font-size:11px}
 .jn-title{font-size:22px;letter-spacing:.04em}
 .jn-sub{font-size:13px;letter-spacing:.04em}
 .jn-columns{grid-template-columns:1fr;gap:32px}
