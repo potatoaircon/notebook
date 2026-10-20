@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/tsugaike-map.css">
   <link rel="stylesheet" href="./css/unlock.css">
+  <link rel="stylesheet" href="./css/october.css">
+  <link rel="stylesheet" href="./css/tokyo-food.css">
   <script>try{if(sessionStorage.getItem('notebookUnlocked')==='true')document.documentElement.classList.add('nb-open')}catch(e){}</script>
 </head>
 <body>
@@ -32,7 +34,7 @@
     </div>
     <button type="button" class="nb-hammer" id="nb-hammer" aria-label="錘子"><span class="nb-hammer-swing"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="29" y="22" width="6" height="34" rx="3" fill="#cfc6b8"/><rect x="8" y="8" width="48" height="16" rx="4" fill="#303430"/></svg></span></button>
   </div>
-  <nav class="tm-switch" id="tm-switch" aria-label="選擇旅行月份"><button type="button" data-month="dec" aria-selected="true">DEC</button><button type="button" data-month="jan" aria-selected="false">JAN</button></nav>
+  <nav class="tm-switch" id="tm-switch" aria-label="選擇旅行月份"><a class="tm-food-link" href="#tokyo-food">TOKYO</a><button type="button" data-month="oct" aria-selected="false">OCT</button><button type="button" data-month="dec" aria-selected="true">DEC</button><button type="button" data-month="jan" aria-selected="false">JAN</button></nav>
   <div class="site" id="tm-december">
     <main class="map-screen" id="mapScreen">
       <div class="map-wrap">
@@ -162,9 +164,156 @@
 </svg>
 <div id="tm-card" class="tm-card" hidden role="status" aria-live="polite"><button id="tm-card-close" class="tm-card-close" aria-label="關閉飯店卡片" type="button">×</button><div class="tm-card-row"><div class="tm-card-copy"><p class="tm-card-name" id="tm-card-name"></p><p class="hotel-en" id="tm-card-en"></p><p class="tm-card-meta" id="tm-card-walk"></p><p class="tm-card-price" id="tm-card-price"></p></div></div><div class="tm-card-links"><a class="maps" id="tm-card-map" href="#" target="_blank" rel="noopener noreferrer">Google Maps ↗</a><div class="tm-card-side"><img id="tm-card-photo" class="tm-card-photo" alt="" hidden><a class="booking" id="tm-card-book" href="#" target="_blank" rel="noopener noreferrer" aria-label="Booking"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 0H0v24h24ZM8.575 6.563h2.658c2.108 0 3.473 1.15 3.473 2.898 0 1.15-.575 1.82-.91 2.108l-.287.263.335.192c.815.479 1.318 1.389 1.318 2.395 0 1.988-1.51 3.257-3.857 3.257H7.449V7.713c0-.623.503-1.126 1.126-1.15zm1.7 1.868c-.479.024-.694.264-.694.79v1.893h1.676c.958 0 1.294-.743 1.294-1.365 0-.815-.503-1.318-1.318-1.318zm-.096 4.36c-.407.071-.598.31-.598.79v2.251h1.868c.934 0 1.509-.55 1.509-1.533 0-.934-.599-1.509-1.51-1.509zm7.737 2.394c.743 0 1.341.599 1.341 1.342a1.34 1.34 0 0 1-1.341 1.341 1.355 1.355 0 0 1-1.341-1.341c0-.743.598-1.342 1.34-1.342z"/></svg></a></div></div></div>
 </div></div></section>
+  <section id="tm-october" class="ot" hidden aria-label="十月東京筆記">
+    <div class="ot-inner">
+      <header class="ot-heading">
+        <p class="tm-date" data-range="2026-10-26,2026-10-28">2026.10.26 — 10.28</p>
+        <h1 class="ot-title">TOKYO</h1>
+        <p class="ot-jp">東京</p>
+        <p class="ot-theme">KINSHICHO · OMOTESANDO · HARAJUKU</p>
+      </header>
+      <div class="ot-map-wrap">
+        <svg class="ot-map" viewBox="0 0 900 600" role="img" aria-label="東京的抽象位置圖。東側是錦糸町，西側是原宿、表参道、渋谷">
+          <defs>
+            <pattern id="ot-sage" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#dfe7dc"/><path d="M0 0V12" stroke="#a9b9a6" stroke-width="1.3"/></pattern>
+            <pattern id="ot-coral" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#f4ded6"/><path d="M0 0V12" stroke="#d59a8e" stroke-width="1.3"/></pattern>
+            <pattern id="ot-mist" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#d7e4ec"/><path d="M0 0V12" stroke="#a8c0cc" stroke-width="1.3"/></pattern>
+            <pattern id="ot-sand" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#e8e2d6"/><path d="M0 0V12" stroke="#c8bfb0" stroke-width="1.3"/></pattern>
+          </defs>
+          <g class="ot-art">
+            <path d="M48 150 L150 78 280 96 430 64 500 132 470 214 512 292 446 392 318 468 150 442 58 348 72 220Z" fill="url(#ot-sage)"/>
+            <path d="M118 92 L196 58 262 108 188 156Z" fill="url(#ot-coral)" opacity=".9"/>
+            <path d="M548 168 L682 146 734 236 646 312 528 268Z" fill="url(#ot-mist)"/>
+            <path d="M742 118 L878 142 860 268 736 236 724 168Z" fill="url(#ot-sand)"/>
+            <path d="M200 156L236 250 168 392" fill="none" stroke="#c8c4b8" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M214 176L336 228 412 338" fill="none" stroke="#c8c4b8" stroke-width="1.5" stroke-linecap="round"/>
+            <g fill="#a9b9a6">
+              <circle cx="108" cy="250" r="8"/><circle cx="120" cy="244" r="6"/><path d="M114 256v16" stroke="#a9b9a6" stroke-width="1.2"/>
+              <circle cx="390" cy="150" r="7"/><circle cx="402" cy="146" r="5"/><path d="M396 156v14" stroke="#a9b9a6" stroke-width="1.2"/>
+              <circle cx="300" cy="400" r="7"/><circle cx="312" cy="396" r="5"/><path d="M306 406v12" stroke="#a9b9a6" stroke-width="1.2"/>
+            </g>
+            <path d="M860 72V34m-11 11 11-11 11 11" stroke="#303430" stroke-width="1.6" fill="none"/>
+            <text x="860" y="90" text-anchor="middle" class="ot-north">N</text>
+          </g>
+          <g class="ot-station">
+            <circle cx="200" cy="156" r="3.2" fill="#303430"/>
+            <text x="200" y="136" text-anchor="middle">HARAJUKU</text>
+            <text class="ot-jp" x="200" y="176" text-anchor="middle">原宿</text>
+          </g>
+          <g class="ot-station">
+            <circle cx="336" cy="228" r="3.2" fill="#303430"/>
+            <text x="348" y="222" text-anchor="start">OMOTESANDO</text>
+            <text class="ot-jp" x="348" y="238" text-anchor="start">表参道</text>
+          </g>
+          <g class="ot-station">
+            <circle cx="156" cy="392" r="3.2" fill="#303430"/>
+            <text x="156" y="416" text-anchor="middle">SHIBUYA</text>
+            <text class="ot-jp" x="156" y="432" text-anchor="middle">渋谷</text>
+          </g>
+          <g class="ot-base" data-place="kinshicho" role="button" tabindex="0" aria-label="KINSHICHO 錦糸町">
+            <circle class="ot-hit" cx="790" cy="176" r="22"/>
+            <circle cx="790" cy="176" r="11" fill="none" stroke="#303430" stroke-width="1.4"/>
+            <circle cx="790" cy="176" r="4.5" fill="#303430"/>
+            <text x="790" y="150" text-anchor="middle">KINSHICHO</text>
+            <text class="ot-jp" x="790" y="206" text-anchor="middle">錦糸町</text>
+            <text class="ot-meta" x="790" y="224" text-anchor="middle">10.26 — 10.28</text>
+          </g>
+          <g id="ot-shops"></g>
+        </svg>
+        <div id="ot-card" class="ot-card" hidden></div>
+      </div>
+      <div class="ot-columns">
+        <section aria-label="日程">
+          <h2 class="jn-kicker">ITINERARY<b>日程</b></h2>
+          <div class="ot-day"><span class="ot-when"><b>10.26</b> <span>MON</span></span><span>東京・錦糸町</span></div>
+          <div class="ot-day"><span class="ot-when"><b>10.27</b> <span>TUE</span></span><span>東京</span></div>
+          <div class="ot-day"><span class="ot-when"><b>10.28</b> <span>WED</span></span><span>東京</span></div>
+        </section>
+        <section aria-label="スポット">
+          <h2 class="jn-kicker">PLACES<b>スポット</b></h2>
+          <div id="ot-place-list"></div>
+        </section>
+      </div>
+    </div>
+  </section>
+  <!-- Independent TOKYO collection; OCT/DEC/JAN remain untouched. -->
+  <section id="tm-food" class="fd" hidden aria-label="TOKYO 收藏地圖">
+    <div class="fd-inner">
+      <header class="fd-heading">
+        <h1 class="fd-title">TOKYO</h1>
+        <p class="fd-subtitle">東京</p>
+      </header>
+      <nav class="fd-filters" id="fd-filters" aria-label="美食分類">
+        <button type="button" class="fd-filter" data-category="all" aria-pressed="true">ALL</button>
+        <button type="button" class="fd-filter" data-category="pancakes" aria-pressed="false">PANCAKES</button>
+        <button type="button" class="fd-filter" data-category="yakiniku" aria-pressed="false">YAKINIKU</button>
+        <button type="button" class="fd-filter" data-category="gyutan" aria-pressed="false">GYUTAN</button>
+        <button type="button" class="fd-filter" data-category="izakaya" aria-pressed="false">IZAKAYA</button>
+        <button type="button" class="fd-filter" data-category="cakes" aria-pressed="false">CAKES</button>
+      </nav>
+      <div class="fd-map-wrap" id="fd-map-wrap">
+        <svg id="fd-map" class="fd-map" viewBox="0 0 900 560" role="group" aria-label="東京抽象區域色塊，顯示收藏店家位置">
+          <defs>
+            <pattern id="fd-sage" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#e4eae0"/><path d="M0 0V12" stroke="#b7c5b1" stroke-width="1.5"/></pattern>
+            <pattern id="fd-coral" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#f6e5dd"/><path d="M0 0V12" stroke="#dba89e" stroke-width="1.5"/></pattern>
+            <pattern id="fd-blue" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#e0eaf0"/><path d="M0 0V12" stroke="#b3cbd7" stroke-width="1.5"/></pattern>
+            <pattern id="fd-sand" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#efeae0"/><path d="M0 0V12" stroke="#d6c8b5" stroke-width="1.5"/></pattern>
+          </defs>
+          <g class="fd-art">
+            <path d="M78 80 L260 56 324 105 273 226 116 222 72 167Z" fill="url(#fd-sage)"/>
+            <text class="fd-area-label" x="182" y="135" text-anchor="middle">SHINJUKU</text>
+            <text class="fd-area-sub" x="182" y="151" text-anchor="middle">新宿</text>
+          </g>
+          <g class="fd-art" transform="translate(-14 26)">
+            <path d="M82 292 L235 249 300 303 279 466 137 477 67 393Z" fill="url(#fd-blue)"/>
+            <text class="fd-area-label" x="166" y="416" text-anchor="middle">SHIBUYA</text>
+            <text class="fd-area-sub" x="166" y="431" text-anchor="middle">渋谷</text>
+          </g>
+          <g class="fd-art" transform="translate(-33 90)">
+            <path d="M274 205 L433 191 482 264 428 409 303 402 235 310Z" fill="url(#fd-coral)"/>
+            <text class="fd-area-label" x="365" y="259" text-anchor="middle">OMOTESANDO</text>
+            <text class="fd-area-sub" x="365" y="275" text-anchor="middle">表参道</text>
+          </g>
+          <g class="fd-art" transform="translate(4 136) translate(584.5 280) scale(0.9) translate(-584.5 -280)">
+            <path d="M492 202 L656 187 706 256 670 373 520 366 463 288Z" fill="url(#fd-sage)"/>
+            <text class="fd-area-label" x="566" y="253" text-anchor="middle">TOKYO</text>
+            <text class="fd-area-sub" x="566" y="270" text-anchor="middle">東京</text>
+          </g>
+          <g class="fd-art" transform="translate(-18 0)">
+            <path d="M676 64 L813 88 839 172 772 241 663 207 639 132Z" fill="url(#fd-blue)"/>
+            <text class="fd-area-label" x="740" y="145" text-anchor="middle">UENO</text>
+            <text class="fd-area-sub" x="740" y="161" text-anchor="middle">上野</text>
+          </g>
+          <g class="fd-art" transform="translate(18 -44.8)">
+            <path d="M726 299 L876 316 867 452 762 466 700 410Z" fill="url(#fd-sand)"/>
+            <text class="fd-area-label" x="801" y="404" text-anchor="middle">KINSHICHO</text>
+            <text class="fd-area-sub" x="801" y="420" text-anchor="middle">錦糸町</text>
+          </g>
+          <g class="fd-art" transform="translate(-150 30) translate(625 452) scale(0.88) translate(-625 -452)">
+            <path d="M562 400 L678 388 711 474 633 516 539 483Z" fill="url(#fd-coral)" opacity=".57"/>
+            <text class="fd-area-label" x="620" y="458" text-anchor="middle">GINZA</text>
+            <text class="fd-area-sub" x="620" y="473" text-anchor="middle">銀座</text>
+          </g>
+          <g id="fd-area-layer"></g>
+          <g id="fd-markers"></g>
+        </svg>
+        <article class="fd-card" id="fd-card" hidden></article>
+      </div>
+      <section class="fd-list-section" aria-label="餐廳清單">
+        <div class="fd-list-head">
+          <h2 class="fd-kicker">PLACES<b>お店</b></h2>
+          <div><button type="button" id="fd-area-reset" class="fd-area-reset" hidden>ALL AREAS ×</button><span class="fd-count" id="fd-count">02 PLACES</span></div>
+        </div>
+        <div id="fd-list"></div>
+      </section>
+    </div>
+  </section>
   <script defer src="./data/places.js"></script>
   <script defer src="./js/app.js"></script>
   <script defer src="./js/tsugaike-map.js"></script>
+  <script defer src="./js/october.js"></script>
+  <script defer src="./data/tokyo-food.js"></script>
+  <script defer src="./js/tokyo-food.js"></script>
   <script defer src="./js/unlock.js"></script>
 </body>
 </html>

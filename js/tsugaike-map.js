@@ -31,6 +31,9 @@
   const switcher=document.getElementById('tm-switch');
   if(!root||!switcher)return;
   const dec=document.getElementById('tm-december');
+  const octRoot=document.getElementById('tm-october');
+  const foodRoot=document.getElementById('tm-food');
+  const foodLink=switcher.querySelector('.tm-food-link');
   const map=document.getElementById('tm-map');
   const card=document.getElementById('tm-card');
   const routes=document.getElementById('tm-routes');
@@ -133,15 +136,33 @@
     if(!e.target.closest('.tm-place'))setRoute(false);
     if(!e.target.closest('.jn-spot'))closeNote();
   });
+  function setFood(open){
+    if(foodRoot)foodRoot.hidden=!open;
+    if(foodLink){if(open)foodLink.setAttribute('aria-current','page');else foodLink.removeAttribute('aria-current');}
+  }
+  function showFood(updateHash=true){
+    root.hidden=true;
+    if(dec)dec.hidden=true;
+    if(octRoot)octRoot.hidden=true;
+    setFood(true);
+    switcher.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected','false'));
+    closeCard();
+    if(updateHash && location.hash!=='#tokyo-food') history.replaceState({view:'map'},'','#tokyo-food');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
   function showMonth(month,updateHash=true){
     const jan=month==='jan';
     if(jan && window.NotebookMap && typeof window.NotebookMap.showMap==='function') window.NotebookMap.showMap();
-    root.hidden=!jan;if(dec)dec.hidden=jan;
+    root.hidden=month!=='jan';
+    if(dec)dec.hidden=month!=='dec';
+    if(octRoot)octRoot.hidden=month!=='oct';
+    setFood(false);
     switcher.querySelectorAll('button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.month===month)));
     if(!jan)closeCard();
     if(updateHash){
       if(jan){history.replaceState({view:'map'},'','#jan');showTrip('0110');}
-      else if(location.hash==='#jan'||location.hash==='#jan-0109'||location.hash==='#jan-0110'||location.hash==='#jan-0123'||location.hash==='#dec') history.replaceState({view:'map'},'',location.pathname+location.search);
+      else if(month==='oct') history.replaceState({view:'map'},'','#oct');
+      else if(location.hash==='#jan'||location.hash==='#jan-0109'||location.hash==='#jan-0110'||location.hash==='#jan-0123'||location.hash==='#dec'||location.hash==='#oct'||location.hash==='#tokyo-food') history.replaceState({view:'map'},'',location.pathname+location.search);
     }
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -154,6 +175,8 @@
   function syncMonth(){
     const hash=location.hash;
     if(hash==='#jan'||hash==='#jan-0109'||hash==='#jan-0110'||hash==='#jan-0123'){showMonth('jan',false);showTrip(hash==='#jan-0123'?'0123':'0110');}
+    else if(hash==='#oct') showMonth('oct',false);
+    else if(hash==='#tokyo-food') showFood(false);
     else showMonth('dec',false);
   }
   switcher.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>showMonth(b.dataset.month)));
@@ -217,7 +240,7 @@
     });
   }
   // Month switching uses replaceState so it does not add a history entry or disturb December detail pushState.
-  // #jan, #jan-0109 and #jan-0110 open 01.01–01.10. #jan-0123 opens the Tsugaike map. Every other hash shows December.
+  // #jan, #jan-0109 and #jan-0110 open 01.01–01.10. #jan-0123 opens the Tsugaike map. #oct opens October. #tokyo-food opens the TOKYO collection. Every other hash shows December.
   function formatDateRange(start, end){
     const part=value=>{const [y,m,d]=value.split('-'); return {y,m,d};};
     const a=part(start), b=part(end);
