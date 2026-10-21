@@ -1,8 +1,9 @@
 /* TOKYO collection: edit this list to add restaurants.
- * Coordinates x/y are illustrative positions on the abstract 900x560 SVG,
+ * Coordinates x/y are illustrative positions on the abstract map SVG,
  * not geographic coordinates. Google Maps links use the actual address.
  * Leave image as null until you have permission to use a real dish photo.
- * x/y is the dot. The name sits to its right. Optional lines: ['主標', '副標'].
+ * x/y is the dot. The name sits to its right. Optional lines are both the shop name.
+ * extraPins are the other branches, in the same order as branches after the first. Labels stay the shop name.
  * Category keys: pancakes, yakiniku, gyutan, izakaya, cakes.
  * Area keys: omotesando, marunouchi, shibuya, shinjuku, ginza,
  *            ueno, kinshicho, ebisu, asakusa, roppongi, nogizaka, ikejiri, yoyogi,
@@ -19,7 +20,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都港区南青山5-7-28',
     hours: ['08:00 — 21:00'],
     image: './assets/tokyo/crisscross.jpg',
-    x: 340, y: 408
+    x: 368, y: 440
   },
   {
     id: 'butter-biei',
@@ -31,7 +32,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都千代田区丸の内2-4-1 丸ビル B1F',
     hours: ['カフェ 平日・土 11:00 — 20:00', '日祝 11:00 — 19:00'],
     image: './assets/tokyo/butter.jpg',
-    x: 530, y: 445,
+    x: 616, y: 420,
     lines: ['BUTTER', '美瑛放牧酪農場']
   },
   {
@@ -46,7 +47,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都中央区銀座6-6-19 新太炉ビル3F',
     hours: ['11:00 — 19:00'],
     image: './assets/tokyo/tsubaki-salon.jpg',
-    x: 428, y: 508,
+    x: 708, y: 668,
     lines: ['椿サロン']
   },
   {
@@ -61,7 +62,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都渋谷区円山町1-1 SHIBUYA HOTEL EN 1F',
     hours: ['閉業'],
     image: './assets/tokyo/tsubaki-salon.jpg',
-    x: 118, y: 468,
+    x: 236, y: 520,
     lines: ['椿サロン']
   },
   {
@@ -74,7 +75,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都台東区浅草1-41-9',
     hours: ['12:00 — 18:30', '火曜 定休'],
     image: './assets/tokyo/coffee-tengoku.jpg',
-    x: 748, y: 198,
+    x: 958, y: 138,
     lines: ['珈琲天国']
   },
   {
@@ -87,7 +88,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都渋谷区恵比寿4-20-3 恵比寿ガーデンプレイス タワー B1',
     hours: ['11:00 — 19:00'],
     image: './assets/tokyo/yotsuba-milk-place.png',
-    x: 230, y: 528,
+    x: 298, y: 702,
     lines: ['よつ葉', 'ミルクプレイス']
   },
   {
@@ -100,7 +101,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都渋谷区恵比寿4-4-11',
     hours: ['月–土 11:00 — 21:00', '日祝 11:00 — 20:00'],
     image: './assets/tokyo/binya-coffee.png',
-    x: 96, y: 534,
+    x: 176, y: 708,
     lines: ['備屋']
   },
   {
@@ -115,7 +116,8 @@ window.TOKYO_FOOD_PLACES = [
     image: './assets/tokyo/oslo-coffee-kinshicho.png',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=OSLO+COFFEE',
     branches: ['錦糸町', '新宿小田急エース', '新宿サブナード', '四谷三丁目', '麻布十番', '池袋'],
-    x: 760, y: 392,
+    x: 1048, y: 258,
+    extraPins: [{ x:108, y:188 }, { x:268, y:168 }, { x:328, y:348 }, { x:548, y:728 }, { x:292, y:112 }],
     lines: ['OSLO COFFEE']
   },
   {
@@ -128,7 +130,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都港区麻布台1-3-1 麻布台ヒルズ タワープラザ3F',
     hours: ['08:00 — 10:30', '11:00 — 23:00'],
     image: './assets/tokyo/balcony-by-6th.jpg',
-    x: 300, y: 512,
+    x: 638, y: 530,
     lines: ['Balcony']
   },
   {
@@ -142,8 +144,7 @@ window.TOKYO_FOOD_PLACES = [
     hours: ['11:00 — 19:00'],
     image: './assets/tokyo/west-aoyama-garden.png',
     badge: './assets/tokyo/angry.png',
-    x: 262, y: 322,
-    labelDy: -18,
+    x: 518, y: 488,
     lines: ['ウエスト']
   },
   {
@@ -157,7 +158,7 @@ window.TOKYO_FOOD_PLACES = [
     hours: ['月・水–日 11:30 — 01:00', '火 11:30 — 18:00'],
     image: './assets/tokyo/nova-ikejiri.jpg',
     badge: './assets/tokyo/angry.png',
-    x: 36, y: 508,
+    x: 90, y: 670,
     lines: ['nova']
   },
   {
@@ -170,7 +171,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都新宿区新宿4-1-6 NEWoMan新宿 4F',
     hours: ['月–土 11:00 — 21:00', '日祝 11:00 — 20:30'],
     image: './assets/tokyo/garden-house-shinjuku.jpg',
-    x: 140, y: 190,
+    x: 216, y: 282,
     lines: ['GARDEN', 'HOUSE']
   },
   {
@@ -183,7 +184,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都渋谷区富ヶ谷1-44-2 A-FLAT 1F',
     hours: ['臨時休業'],
     image: './assets/tokyo/path-yoyogi.jpg',
-    x: 100, y: 248
+    x: 118, y: 360
   },
   {
     id: 'flapjacks',
@@ -195,7 +196,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都中央区東日本橋1-3-15 馬渕ビル1F',
     hours: ['月・水–金 08:00 — 14:30', '土日 08:00 — 15:30', '火曜 定休'],
     image: './assets/tokyo/flapjacks.jpg',
-    x: 690, y: 250,
+    x: 860, y: 400,
     lines: ["Flapjack's"]
   },
   {
@@ -208,12 +209,12 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都港区南青山3-9-1 Ablim 1F',
     hours: ['08:00 — 18:00'],
     image: './assets/tokyo/i2-cafe.jpg',
-    x: 320, y: 384,
+    x: 478, y: 424,
     lines: ['i2 cafe']
   },
   {
     id: 'eggg-cafe-kokubunji',
-    name: 'eggg Cafe 国分寺店',
+    name: 'eggg Cafe',
     nameJa: 'エグゥーカフェ',
     category: 'pancakes',
     area: 'kokubunji',
@@ -222,8 +223,8 @@ window.TOKYO_FOOD_PLACES = [
     hours: ['月・火・木・金 11:00 — 20:30', '土日祝 10:30 — 20:30', '水曜 定休'],
     image: './assets/tokyo/eggg-cafe.png',
     mapsUrl: 'https://www.google.com/maps/place/eggg+Cafe+%E5%9B%BD%E5%88%86%E5%AF%BA%E5%BA%97/@35.7019648,139.4819071,17z',
-    x: 52, y: 42,
-    lines: ['eggg', '国分寺']
+    x: 36, y: 70,
+    lines: ['eggg Cafe']
   },
   {
     id: 'mr-friendly',
@@ -235,7 +236,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都渋谷区恵比寿西2-18-6 SPビル 1F',
     hours: ['11:00 — 19:00'],
     image: './assets/tokyo/mr-friendly.jpg',
-    x: 182, y: 500,
+    x: 278, y: 620,
     lines: ['MR.FRIENDLY']
   },
   {
@@ -249,7 +250,7 @@ window.TOKYO_FOOD_PLACES = [
     hours: ['08:00 — 23:00'],
     image: './assets/tokyo/ivy-place.jpg',
     badge: './assets/tokyo/angry.png',
-    x: 236, y: 460,
+    x: 208, y: 588,
     lines: ['IVY', 'PLACE']
   },
   {
@@ -264,8 +265,8 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都中野区中野4-10-1 中野セントラルパーク イースト 1F',
     hours: ['11:00 — 20:00'],
     image: './assets/tokyo/js-pancake.png',
-    x: 36, y: 118,
-    lines: ['J.S.', '中野']
+    x: 28, y: 210,
+    lines: ['J.S. PANCAKE CAFE']
   },
   {
     id: 'js-pancake-machida',
@@ -279,8 +280,8 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都町田市原町田6-2-6 町田モディ 1F',
     hours: ['11:00 — 20:00'],
     image: './assets/tokyo/js-pancake.png',
-    x: 36, y: 430,
-    lines: ['J.S.', '町田']
+    x: 28, y: 740,
+    lines: ['J.S. PANCAKE CAFE']
   },
   {
     id: 'breakfast-club-nakameguro',
@@ -292,7 +293,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都目黒区東山2-2-4',
     hours: ['10:00 — 16:30'],
     image: './assets/tokyo/breakfast-club.png',
-    x: 15, y: 470,
+    x: 126, y: 610,
     lines: ['Breakfast', 'Club']
   },
   {
@@ -305,7 +306,7 @@ window.TOKYO_FOOD_PLACES = [
     address: '東京都渋谷区千駄ケ谷4-5-11 SuSLOB北参道 1F',
     hours: ['09:00 — 16:00'],
     image: './assets/tokyo/brasserie-salut.jpg',
-    x: 348, y: 246,
+    x: 306, y: 268,
     lines: ['Brasserie', 'Salut']
   },
   {
@@ -321,7 +322,8 @@ window.TOKYO_FOOD_PLACES = [
     badge: './assets/tokyo/angry.png',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=bills',
     branches: ['銀座', '表参道', 'お台場', '二子玉川'],
-    x: 505, y: 468,
+    x: 848, y: 572,
+    extraPins: [{ x:490, y:310 }, { x:1040, y:700 }, { x:70, y:788 }],
     lines: ['bills']
   },
   {
@@ -336,7 +338,8 @@ window.TOKYO_FOOD_PLACES = [
     image: './assets/tokyo/shiawase-pancake.jpg',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('幸せのパンケーキ'),
     branches: ['表参道', '渋谷', '銀座', '池袋', '吉祥寺'],
-    x: 378, y: 300,
+    x: 394, y: 348,
+    extraPins: [{ x:96, y:520 }, { x:820, y:656 }, { x:488, y:70 }, { x:24, y:268 }],
     lines: ['幸せの', 'パンケーキ']
   },
   {
@@ -351,7 +354,8 @@ window.TOKYO_FOOD_PLACES = [
     image: './assets/tokyo/flippers.webp',
     mapsUrl: 'https://www.google.com/maps/search/?api=1&query=FLIPPER%27S',
     branches: ['渋谷', '新宿', '自由が丘', '下北沢', '吉祥寺'],
-    x: 160, y: 358,
+    x: 223, y: 420,
+    extraPins: [{ x:118, y:308 }, { x:168, y:788 }, { x:24, y:508 }, { x:24, y:140 }],
     lines: ["FLIPPER'S"]
   },
   {
@@ -365,7 +369,7 @@ window.TOKYO_FOOD_PLACES = [
     hours: ['11:00 — 20:00'],
     image: './assets/tokyo/cafe-knit.webp',
     mapsUrl: 'https://www.google.com/maps/place/カフェ・喫茶+ニット/@35.6954645,139.8164646,17z',
-    x: 800, y: 420,
+    x: 1124, y: 340,
     lines: ['喫茶ニット']
   },
   {
@@ -379,7 +383,23 @@ window.TOKYO_FOOD_PLACES = [
     hours: ['月・水・木・金 07:00 — 15:00', '土日祝 08:00 — 17:00', '火曜 定休'],
     image: './assets/tokyo/morning-folks.jpg',
     mapsUrl: 'https://www.google.com/maps/place/THE+MORNING+FOLKS+OSHIAGE+Coffee+%26+American+Breakfast/@35.7087522,139.8107438,17z',
-    x: 812, y: 108,
+    x: 1148, y: 142,
     lines: ['Morning', 'Folks']
+  },
+  {
+    id: 'sarabeths-tokyo',
+    name: "Sarabeth's",
+    nameJa: 'サラベス',
+    category: 'pancakes',
+    area: 'marunouchi',
+    station: '東京駅 · 鉃鋼ビルディング南館 2・3F',
+    address: '東京都千代田区丸の内1-8-2 鉃鋼ビルディング南館2・3F',
+    hours: ['09:00 — 22:00'],
+    image: './assets/tokyo/sarabeths.jpg',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sarabeth%27s',
+    branches: ['東京', '新宿', '表参道', '品川'],
+    x: 736, y: 470,
+    extraPins: [{ x:300, y:210 }, { x:520, y:350 }, { x:640, y:768 }],
+    lines: ["Sarabeth's"]
   }
 ];

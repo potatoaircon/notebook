@@ -252,58 +252,13 @@
         <button type="button" class="fd-filter" data-category="cakes" aria-pressed="false">CAKES</button>
       </nav>
       <div class="fd-map-wrap" id="fd-map-wrap">
-        <svg id="fd-map" class="fd-map" viewBox="0 0 900 560" role="group" aria-label="東京抽象區域色塊，顯示收藏店家位置">
+        <svg id="fd-map" class="fd-map" viewBox="0 0 1300 810" role="group" aria-label="東京抽象區域色塊，顯示收藏店家位置">
           <defs>
-            <pattern id="fd-sage" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#e4eae0"/><path d="M0 0V12" stroke="#b7c5b1" stroke-width="1.5"/></pattern>
-            <pattern id="fd-coral" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#f6e5dd"/><path d="M0 0V12" stroke="#dba89e" stroke-width="1.5"/></pattern>
-            <pattern id="fd-blue" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#e0eaf0"/><path d="M0 0V12" stroke="#b3cbd7" stroke-width="1.5"/></pattern>
-            <pattern id="fd-sand" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="12" height="12" fill="#efeae0"/><path d="M0 0V12" stroke="#d6c8b5" stroke-width="1.5"/></pattern>
+            <pattern id="fd-main" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="16" height="16" fill="#E9E7E1"/><path d="M0 0V16" stroke="#C8C3BB" stroke-opacity="0.18" stroke-width="1.15"/></pattern>
+            <pattern id="fd-soft" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="16" height="16" fill="#F1E9DD"/><path d="M0 0V16" stroke="#C8C3BB" stroke-opacity="0.18" stroke-width="1.15"/></pattern>
+            <pattern id="fd-accent" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-42)"><rect width="16" height="16" fill="#EBCBC3"/><path d="M0 0V16" stroke="#C8C3BB" stroke-opacity="0.18" stroke-width="1.15"/></pattern>
           </defs>
-          <g class="fd-art">
-            <g transform="translate(260 56) scale(1.275 1.225) translate(-260 -56)">
-              <path d="M78 80 L260 56 324 105 273 226 116 222 72 167Z" fill="url(#fd-sage)"/>
-            </g>
-            <text class="fd-area-label" x="161" y="153" text-anchor="middle">SHINJUKU</text>
-            <text class="fd-area-sub" x="161" y="169" text-anchor="middle">新宿</text>
-          </g>
-          <g class="fd-art">
-            <g transform="translate(286 329) scale(1.35 1.36) translate(-286 -329) translate(-14 26)">
-              <path d="M82 292 L235 249 300 303 279 466 137 477 67 393Z" fill="url(#fd-blue)"/>
-            </g>
-            <text class="fd-area-label" x="129" y="400" text-anchor="middle">SHIBUYA</text>
-            <text class="fd-area-sub" x="129" y="416" text-anchor="middle">渋谷</text>
-          </g>
-          <g class="fd-art">
-            <g transform="translate(202 400) scale(1 1.425) translate(-202 -400) translate(-33 90)">
-              <path d="M274 205 L433 191 482 264 428 409 303 402 235 310Z" fill="url(#fd-coral)"/>
-            </g>
-            <text class="fd-area-label" x="332" y="327" text-anchor="middle">OMOTESANDO</text>
-            <text class="fd-area-sub" x="332" y="343" text-anchor="middle">表参道</text>
-          </g>
-          <g class="fd-art" transform="translate(4 136) translate(584.5 280) scale(0.9) translate(-584.5 -280)">
-            <path d="M492 202 L656 187 706 256 670 373 520 366 463 288Z" fill="url(#fd-sage)"/>
-            <text class="fd-area-label" x="566" y="253" text-anchor="middle">TOKYO</text>
-            <text class="fd-area-sub" x="566" y="270" text-anchor="middle">東京</text>
-          </g>
-          <g class="fd-art">
-            <g transform="translate(658 64) scale(1 1.25) translate(-658 -64) translate(-18 0)">
-              <path d="M676 64 L813 88 839 172 772 241 663 207 639 132Z" fill="url(#fd-blue)"/>
-            </g>
-            <text class="fd-area-label" x="722" y="165" text-anchor="middle">UENO</text>
-            <text class="fd-area-sub" x="722" y="181" text-anchor="middle">上野</text>
-          </g>
-          <g class="fd-art">
-            <g transform="translate(804 254) scale(1.08 1.14) translate(-804 -254) translate(18 -44.8)">
-              <path d="M726 299 L876 316 867 452 762 466 700 410Z" fill="url(#fd-sand)"/>
-            </g>
-            <text class="fd-area-label" x="819" y="359" text-anchor="middle">KINSHICHO</text>
-            <text class="fd-area-sub" x="819" y="375" text-anchor="middle">錦糸町</text>
-          </g>
-          <g class="fd-art" transform="translate(-150 30) translate(625 452) scale(0.88) translate(-625 -452)">
-            <path d="M562 400 L678 388 711 474 633 516 539 483Z" fill="url(#fd-coral)" opacity=".57"/>
-            <text class="fd-area-label" x="620" y="458" text-anchor="middle">GINZA</text>
-            <text class="fd-area-sub" x="620" y="473" text-anchor="middle">銀座</text>
-          </g>
+          <g id="fd-districts"></g>
           <g id="fd-area-layer"></g>
           <g id="fd-markers"></g>
         </svg>
@@ -322,6 +277,7 @@
   <script defer src="./js/app.js"></script>
   <script defer src="./js/tsugaike-map.js"></script>
   <script defer src="./js/october.js"></script>
+  <script defer src="./data/tokyo-districts.js"></script>
   <script defer src="./data/tokyo-food.js"></script>
   <script defer src="./js/tokyo-food.js"></script>
   <script defer src="./js/unlock.js"></script>

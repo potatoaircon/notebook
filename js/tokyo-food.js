@@ -19,8 +19,11 @@
   const compact = window.matchMedia('(max-width: 767px)');
   const mapSearch = (shop) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${shop.name} ${shop.address}`)}`;
   const categoryLabels = { pancakes: 'PANCAKES', yakiniku: 'YAKINIKU', gyutan: 'GYUTAN', izakaya: 'IZAKAYA', cakes: 'CAKES' };
-  const areaLabels = { omotesando:'表参道', marunouchi:'東京', shibuya:'渋谷', shinjuku:'新宿', ginza:'銀座', ueno:'上野', kinshicho:'錦糸町', ebisu:'恵比寿', asakusa:'浅草', roppongi:'六本木', nogizaka:'乃木坂', ikejiri:'池尻大橋', yoyogi:'代々木公園', higashinihonbashi:'東日本橋', okachimachi:'御徒町', daikanyama:'代官山', nakano:'中野', machida:'町田', nakameguro:'中目黒', kitasando:'北参道', kokubunji:'国分寺', oshiage:'押上', other:'東京' };
-  const areaCenters = { omotesando:[325,390], marunouchi:[589,416], shibuya:[170,387], shinjuku:[185,167], ginza:[475,482], ueno:[721,153], kinshicho:[806,338], ebisu:[180,530], asakusa:[748,198], roppongi:[300,512], nogizaka:[262,322], ikejiri:[36,508], yoyogi:[100,248], higashinihonbashi:[690,250], okachimachi:[650,200], daikanyama:[236,460], nakano:[36,118], machida:[36,430], nakameguro:[15,470], kitasando:[348,246], kokubunji:[52,42], oshiage:[812,108], other:[450,435] };
+  const areaLabels = { omotesando:'表参道', marunouchi:'東京', shibuya:'渋谷', shinjuku:'新宿', ginza:'銀座', ueno:'上野', kinshicho:'錦糸町', ebisu:'恵比寿', asakusa:'浅草', roppongi:'六本木', nogizaka:'乃木坂', ikejiri:'池尻大橋', yoyogi:'代々木公園', higashinihonbashi:'東日本橋', okachimachi:'御徒町', daikanyama:'代官山', nakano:'中野', machida:'町田', nakameguro:'中目黒', kitasando:'北参道', kokubunji:'国分寺', oshiage:'押上', ikebukuro:'池袋', iidabashi:'飯田橋', suidobashi:'水道橋', akihabara:'秋葉原', other:'東京' };
+  const areaCenters = { nogizaka:[518,488], ikejiri:[90,670], yoyogi:[118,360], higashinihonbashi:[860,400], okachimachi:[700,260], daikanyama:[208,588], nakano:[28,210], machida:[28,740], nakameguro:[126,610], kitasando:[306,268], kokubunji:[36,70], other:[640,450] };
+  (window.TOKYO_DISTRICTS || []).forEach(district => {
+    areaCenters[district.id === 'tokyo' ? 'marunouchi' : district.id] = district.label;
+  });
   const listAreaOrder = ['kinshicho', 'oshiage', 'asakusa', 'higashinihonbashi', 'marunouchi', 'ginza', 'kitasando', 'omotesando', 'nogizaka', 'roppongi', 'daikanyama', 'shinjuku', 'yoyogi', 'shibuya', 'ebisu', 'kokubunji', 'nakano', 'nakameguro', 'ikejiri', 'machida'];
   const nodes = new Map();
   let currentCategory = 'all';
@@ -47,20 +50,34 @@
   const safeNumber = (value) => Math.max(0, Math.min(999, value));
   const clusterMode = () => false;
 
-  function createMarker(shop) {
-    const { x, y } = pointFor(shop);
-    const g = el('g', { class:'fd-marker', role:'button', tabindex:'0', 'data-id':shop.id,
-      'aria-label': `${shop.name} · ${areaLabels[shop.area] || '東京'}`,
+  function drawDistricts() {
+    const layer = document.getElementById('fd-districts');
+    const districts = window.TOKYO_DISTRICTS;
+    if (!layer || !Array.isArray(districts)) return;
+    districts.forEach(district => {
+      const group = el('g', { class:'fd-art', 'data-district':district.id });
+      group.append(el('path', { d:district.path, fill:`url(#fd-${district.tone})` }));
+      const [x, y] = district.label;
+      const labelClass = `fd-area-label is-${district.tone}` + (district.en.length >= 9 ? ' is-long' : '');
+      addText(group, district.en, { class:labelClass, x, y, 'text-anchor':'middle' });
+      addText(group, district.ja, { class:`fd-area-sub is-${district.tone}`, x, y:y + 15, 'text-anchor':'middle' });
+      layer.append(group);
+    });
+  }
+
+  function createMarker(shop, pin, key) {
+    const { x, y } = pointFor(pin);
+    const g = el('g', { class:'fd-marker', role:'button', tabindex:'0', 'data-id':shop.id, 'data-key':key,
+      'aria-label': key === shop.id ? `${shop.name} · ${areaLabels[shop.area] || '東京'}` : shop.name,
       transform: `translate(${x} ${y})` });
     const labelX = 20;
-    const labelY = Number(shop.labelDy) || 0;
     const lines = Array.isArray(shop.lines) && shop.lines.length ? shop.lines : [shop.name];
     const shown = lines.slice(0, 2).map((line, index) => index === 0 && line.length > 21 ? line.slice(0, 20) + '…' : line);
     if (shown.length === 1) {
-      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:labelY, 'text-anchor':'start', 'dominant-baseline':'central' });
+      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:0, 'text-anchor':'start', 'dominant-baseline':'central' });
     } else {
-      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:labelY - 6.5, 'text-anchor':'start', 'dominant-baseline':'central' });
-      addText(g, shown[1], { class:'fd-marker-sub', x:labelX, y:labelY + 8, 'text-anchor':'start', 'dominant-baseline':'central' });
+      addText(g, shown[0], { class:'fd-marker-name', x:labelX, y:-8, 'text-anchor':'start', 'dominant-baseline':'central' });
+      addText(g, shown[1], { class:'fd-marker-name', x:labelX, y:8, 'text-anchor':'start', 'dominant-baseline':'central' });
     }
     if (shop.badge) g.append(angryMark());
     else {
@@ -71,7 +88,7 @@
     g.addEventListener('mousedown', event => { if (event.button === 0) event.preventDefault(); });
     const box = g.getBBox();
     g.insertBefore(el('rect', { class:'fd-hit', x:box.x - 4, y:box.y - 4, width:box.width + 8, height:box.height + 8 }), g.firstChild);
-    nodes.set(shop.id, g);
+    nodes.set(key, g);
     g.addEventListener('click', event => {
       const label = event.target.closest('.fd-marker-name, .fd-marker-sub');
       const pin = event.target.closest('.fd-pin');
@@ -83,14 +100,14 @@
         return;
       }
       event.stopPropagation();
-      if (openedId === shop.id && pinned) closeCard();
-      else openCard(shop.id, true);
+      if (openedId === shop.id && pinned && card.dataset.pin === key) closeCard();
+      else openCard(shop.id, true, key);
     });
     g.addEventListener('keydown', event => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
-      if (openedId === shop.id && pinned) closeCard();
-      else openCard(shop.id, true);
+      if (openedId === shop.id && pinned && card.dataset.pin === key) closeCard();
+      else openCard(shop.id, true, key);
     });
   }
 
@@ -247,25 +264,30 @@
   }
   function setHot(ids) {
     hotIds = ids;
-    for (const [id, node] of nodes) node.classList.toggle('is-hot', ids.includes(id));
+    for (const node of nodes.values()) node.classList.toggle('is-hot', ids.includes(node.dataset.id));
   }
-  function openCard(id, sticky = false) {
+  function pinsFor(ids) {
+    return [...nodes.values()].filter(node => ids.includes(node.dataset.id));
+  }
+  function openCard(id, sticky = false, key = id) {
     const shop = places.find(p => p.id === id);
     if (!shop || !visiblePlaces().some(p => p.id === id) || clusterMode()) return;
     clearTimeout(timeout);
     setHot([]);
     openedId = id;
     pinned = sticky;
-    markerLayer.querySelectorAll('.fd-marker').forEach(item => item.classList.toggle('is-on', item.dataset.id === id));
+    card.dataset.pin = key;
+    markerLayer.querySelectorAll('.fd-marker').forEach(item => item.classList.toggle('is-on', item.dataset.key === key));
     drawCard(shop);
     card.hidden = false;
-    positionCard(id);
+    positionCard(key);
     renderList();
   }
   function closeCard() {
     clearTimeout(timeout);
     openedId = null;
     pinned = false;
+    delete card.dataset.pin;
     card.hidden = true;
     markerLayer.querySelectorAll('.fd-marker').forEach(item => item.classList.remove('is-on'));
     renderList();
@@ -339,18 +361,27 @@
       const sub = document.createElement('span');
       sub.textContent = categoryLabels[entry.category] || '';
       button.append(title,sub);
-      button.addEventListener('click',() => {
+      row.addEventListener('mouseenter', () => {
+        if (!finePointer.matches) return;
+        pinsFor(entry.ids).forEach(node => node.classList.add('is-peek'));
+      });
+      row.addEventListener('mouseleave', () => pinsFor(entry.ids).forEach(node => node.classList.remove('is-peek')));
+      row.addEventListener('click', event => {
+        if (event.target.closest('a')) return;
         if (openedId) {
           clearTimeout(timeout);
           openedId = null;
           pinned = false;
+          delete card.dataset.pin;
           card.hidden = true;
           markerLayer.querySelectorAll('.fd-marker').forEach(item => item.classList.remove('is-on'));
         }
+        for (const node of nodes.values()) node.classList.remove('is-peek');
         setHot(entry.ids);
         renderList();
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        wrap.scrollIntoView({ block:'center', behavior:reduce ? 'auto' : 'smooth' });
+        const marker = nodes.get(entry.ids[0]);
+        (marker || wrap).scrollIntoView({ block:'center', inline:'nearest', behavior:reduce ? 'auto' : 'smooth' });
       });
       const area = document.createElement('span');
       area.className = 'fd-list-area';
@@ -370,8 +401,9 @@
     for (const node of nodes.values()) node.classList.remove('is-hot');
     closeCard();
     const visible = new Set(visiblePlaces().map(p => p.id));
-    for (const [id,node] of nodes) {
-      node.toggleAttribute('hidden', clusterMode() || !visible.has(id));
+    for (const node of nodes.values()) {
+      node.classList.remove('is-peek');
+      node.toggleAttribute('hidden', clusterMode() || !visible.has(node.dataset.id));
       node.classList.add('is-quiet');
     }
     createClusters();
@@ -379,7 +411,11 @@
     renderList();
   }
 
-  places.forEach(createMarker);
+  drawDistricts();
+  places.forEach(shop => {
+    createMarker(shop, shop, shop.id);
+    (shop.extraPins || []).forEach((pin, index) => createMarker(shop, pin, `${shop.id}#${index}`));
+  });
   filters.addEventListener('click', event => {
     const button = event.target.closest('button[data-category]');
     if (!button) return;
@@ -392,7 +428,7 @@
   card.addEventListener('pointerleave', () => { if (finePointer.matches) scheduleClose(); });
   card.addEventListener('click',event => event.stopPropagation());
   root.addEventListener('click', event => {
-    if (event.target.closest('.fd-marker,.fd-card,.fd-area,.fd-place-button,.fd-filter,.fd-area-reset')) return;
+    if (event.target.closest('.fd-marker,.fd-card,.fd-area,.fd-row,.fd-place-button,.fd-filter,.fd-area-reset')) return;
     if (openedId) closeCard();
     if (hotIds.length) { setHot([]); renderList(); }
   });
